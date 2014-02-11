@@ -33,6 +33,6 @@ if [[ -f "$FIREFOX2" ]]; then
     found += "Firefox (Alternate Location)"
 fi
 
-for i in ${#found[@]}; do
+for i in ${found[@]}; do
     echo "RES settings file found for $i browser"
 done
