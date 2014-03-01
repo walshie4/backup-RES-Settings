@@ -10,17 +10,26 @@
  * machine.
  */
 
+import java.io.File;
+
 public class RESBackup {
     private String os; /*String representation of the OS*/
-    private String browsers[]; /*Contains String representations of
-                                 installed browsers on the local machine.*/
-    private String RES[]; /*Contains String representations of installed
-                            browsers with RES installed as well.*/
+    private ArrayList<File> RES; /*Contains File object representations of
+                            installed browsers with RES installed as well.*/
+    /**
+     * RESBackup -
+     *     Constructor for RESBackup object
+     *
+     * @return A new RESBackup object
+     */
+    public RESBackup() {
+        this.RES = new ArrayList<File>();
+    }
     /**
      * makeBackup -
      *     Makes a backup of specified RES installs
      */
-    public void makeBackup() {
+    private void makeBackup() {
         //
     }
     /**
@@ -31,7 +40,7 @@ public class RESBackup {
      * Sets RES to an array of strings representing 
      *     browsers with RES installs.
      */
-    public void checkForRES() {
+    private void checkForRES() {
         //
     }
     /**
@@ -46,21 +55,28 @@ public class RESBackup {
         os = System.getProperty("os.name").toLowerCase();
     }
     /**
-     * detectInstalledBrowsers - 
-     *     Looks for installed browsers on the
+     * detectRES - 
+     *     Looks for installed versions of RES on the
      *     local machine.
      *
-     * Sets browsers to an array containing string representations
-     *     of installed browsers on the local machine.
+     * Sets RES to an array containing File objects
+     *      pointing to installed RES settings files
      */
-    private void detectInstalledBrowsers() throws NotSupportedException{
+    private void detectRES() throws NotSupportedException{
         if (this.os == null)
             throw new NotSupportedException("Cannot detect installed browsers"
                     + " without first running detectOperatingSystem()");
         switch(this.os) {
         case "Windows 7":
         case "Windows 8":
-            //do windows 7/8 stuff
+            File chrome = new File("%APPDATA%\\Local\\Google\\Chrome\\User Data\\Default"
+                        +"\\Local Storage\\chrome-extension_kbmfpngjjgdllneeig"
+                        +"pgjifpgocmfgmb_0.localstorage");
+            if (chrome.exists())
+                this.RES.add(chrome);
+            break;
+        case "Windows XP":
+            //do windows xp stuff
             break;
         case "Mac OS X":
             //do mac stuff
@@ -79,6 +95,6 @@ public class RESBackup {
      * @param args - Command-line arguments
      */
     public static void main(String[] args) {
-        System.out.println(System.getProperty("os.name"));
+        //
     }
 }
