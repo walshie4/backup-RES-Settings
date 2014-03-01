@@ -11,8 +11,15 @@
  */
 
 import java.io.File;
+import java.util.ArrayList;
 
 public class RESBackup {
+    private final String CHROME_PATH_WIN78 = "%APPDATA%\\Local\\Google\\Chrome\\"
+        + "User Data\\Default\\Local Storage\\chrome-extension_"
+        + "kbmfpngjjgdllneeigpgjifpgocmfgmb_0.localstorage";
+    private final String CHROMIUM_PATH_WIN78 = "%APPDATA%\\Local\\Chromium\\"
+        + "User Data\\Default\\Local Storage\\chrome-extension_"
+        + "kbmfpngjjgdllneeigpgjifpgocmfgmb_0.localstorage";
     private String os; /*String representation of the OS*/
     private ArrayList<File> RES; /*Contains File object representations of
                             installed browsers with RES installed as well.*/
@@ -69,11 +76,12 @@ public class RESBackup {
         switch(this.os) {
         case "Windows 7":
         case "Windows 8":
-            File chrome = new File("%APPDATA%\\Local\\Google\\Chrome\\User Data\\Default"
-                        +"\\Local Storage\\chrome-extension_kbmfpngjjgdllneeig"
-                        +"pgjifpgocmfgmb_0.localstorage");
+            File chrome = new File(CHROME_PATH_WIN78);
             if (chrome.exists())
                 this.RES.add(chrome);
+            File chromium = new File(CHROMIUM_PATH_WIN78);
+            if (chromium.exists())
+                this.RES.add(chromium);
             break;
         case "Windows XP":
             //do windows xp stuff
@@ -95,6 +103,6 @@ public class RESBackup {
      * @param args - Command-line arguments
      */
     public static void main(String[] args) {
-        //
+        RESBackup backup = new RESBackup(); 
     }
 }
