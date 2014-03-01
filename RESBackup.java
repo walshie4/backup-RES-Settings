@@ -53,8 +53,26 @@ public class RESBackup {
      * Sets browsers to an array containing string representations
      *     of installed browsers on the local machine.
      */
-    private void detectInstalledBrowsers(String os) {
-        //
+    private void detectInstalledBrowsers() {
+        if (this.os == null)
+            throw new Exception("Cannot detect installed browsers"
+                    + " without first running detectOperatingSystem()");
+        switch(this.os) {
+        case "win":
+            //do windows stuff
+            break;
+        case "mac":
+            //do mac stuff
+            break;
+        case "nix":
+        case "nux":
+        case "aix":
+            //do linux stuff
+            break;
+        default:
+            throw new Exception("Your OS isn't supported! Please report this issue"
+                    + " on the github project page. Thanks! :)");
+        }
     }
     /**
      * main - Runs the program
