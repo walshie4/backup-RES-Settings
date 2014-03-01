@@ -53,25 +53,24 @@ public class RESBackup {
      * Sets browsers to an array containing string representations
      *     of installed browsers on the local machine.
      */
-    private void detectInstalledBrowsers() {
+    private void detectInstalledBrowsers() throws NotSupportedException{
         if (this.os == null)
-            throw new Exception("Cannot detect installed browsers"
+            throw new NotSupportedException("Cannot detect installed browsers"
                     + " without first running detectOperatingSystem()");
         switch(this.os) {
-        case "win":
-            //do windows stuff
+        case "Windows 7":
+        case "Windows 8":
+            //do windows 7/8 stuff
             break;
-        case "mac":
+        case "Mac OS X":
             //do mac stuff
             break;
-        case "nix":
-        case "nux":
-        case "aix":
+        case "Linux":
             //do linux stuff
             break;
         default:
-            throw new Exception("Your OS isn't supported! Please report this issue"
-                    + " on the github project page. Thanks! :)");
+            throw new NotSupportedException("Your OS isn't supported! Please report"
+                    + "this issue on the github project page. Thanks! :)");
         }
     }
     /**
@@ -79,7 +78,7 @@ public class RESBackup {
      *
      * @param args - Command-line arguments
      */
-    public void static main(String[] args) {
-        //do stuff
+    public static void main(String[] args) {
+        System.out.println(System.getProperty("os.name"));
     }
 }
