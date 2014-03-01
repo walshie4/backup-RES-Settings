@@ -13,7 +13,9 @@
 public class RESBackup {
     private String os; /*String representation of the OS*/
     private String browsers[]; /*Contains String representations of
-                              installed browsers on the local machine.*/
+                                 installed browsers on the local machine.*/
+    private String RES[]; /*Contains String representations of installed
+                            browsers with RES installed as well.*/
     /**
      * makeBackup -
      *     Makes a backup of specified RES installs
@@ -26,9 +28,10 @@ public class RESBackup {
      *     Checks for RES installs on the specified
      *     browsers.
      *
-     * @return An array of strings representing browsers with RES installs.
+     * Sets RES to an array of strings representing 
+     *     browsers with RES installs.
      */
-    public String[] checkForRES() {
+    public void checkForRES() {
         //
     }
     /**
@@ -36,24 +39,21 @@ public class RESBackup {
      *     Checks the local machine for the
      *     which operating system it is running.
      *
-     * @return A string representation of the
-     *         operating system on the local machine.
+     * Sets os to a string representation of the
+     *      operating system on the local machine.
      */
-    private String detectOperatingSystem() {
-        //
+    private void detectOperatingSystem() {
+        os = System.getProperty("os.name").toLowerCase();
     }
     /**
      * detectInstalledBrowsers - 
      *     Looks for installed browsers on the
      *     local machine.
      *
-     * @param os - A string representation of the
-     *             detected operating system on
-     *             the local system.
-     * @return An array containing string representations
-     *         of installed browsers on the local machine.
+     * Sets browsers to an array containing string representations
+     *     of installed browsers on the local machine.
      */
-    private String[] detectInstalledBrowsers(String os) {
+    private void detectInstalledBrowsers(String os) {
         //
     }
     /**
