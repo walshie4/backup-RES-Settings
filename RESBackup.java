@@ -14,12 +14,13 @@ import java.io.File;
 import java.util.ArrayList;
 
 public class RESBackup {
-    private final String CHROME_PATH_WIN78 = "%APPDATA%\\Local\\Google\\Chrome\\"
-        + "User Data\\Default\\Local Storage\\chrome-extension_"
+    private final String CHROME_PATH_WIN78 = "%APPDATA%/Local/Google/Chrome/"
+        + "User Data/Default/Local Storage/chrome-extension_"
         + "kbmfpngjjgdllneeigpgjifpgocmfgmb_0.localstorage";
-    private final String CHROMIUM_PATH_WIN78 = "%APPDATA%\\Local\\Chromium\\"
-        + "User Data\\Default\\Local Storage\\chrome-extension_"
+    private final String CHROMIUM_PATH_WIN78 = "%APPDATA%/Local/Chromium/"
+        + "User Data/Default/Local Storage/chrome-extension_"
         + "kbmfpngjjgdllneeigpgjifpgocmfgmb_0.localstorage";
+    private final String CHROME_WINXP = "
     private String os; /*String representation of the OS*/
     private ArrayList<File> RES; /*Contains File object representations of
                             installed browsers with RES installed as well.*/
