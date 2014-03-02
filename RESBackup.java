@@ -63,7 +63,7 @@ public class RESBackup {
      *      operating system on the local machine.
      */
     private void detectOperatingSystem() {
-        os = System.getProperty("os.name").toLowerCase();
+        this.os = System.getProperty("os.name").toLowerCase();
     }
     /**
      * detectRES - 
@@ -72,11 +72,12 @@ public class RESBackup {
      *
      * Sets RES to an array containing File objects
      *      pointing to installed RES settings files
+     *
+     * @exception NotSupportedException - thrown when the program encounters a
+     *                                    scenario it knows it does not yet support.
      */
     private void detectRES() throws NotSupportedException{
-        if (this.os == null)
-            throw new NotSupportedException("Cannot detect installed browsers"
-                    + " without first running detectOperatingSystem()");
+        detectOperatingSystem();
         switch(this.os) {
         case "Windows 7":
         case "Windows 8":
@@ -131,7 +132,22 @@ public class RESBackup {
      * @return path to profile folder
      */
     private String findFirefoxProfile() {
-        //TODO
+        switch(this.os) {
+        case "Windows 7":
+        case "Windows 8":
+            //do win7/8 stuff
+            break;
+        case "Windows XP":
+            //do win XP stuff
+            break;
+        case "Mac OS X":
+            //do mac stuff
+            break;
+        case "Linux":
+            //do linux stuff
+            break;
+        default:
+            //this should never run
     }
     /**
      * main - Runs the program
