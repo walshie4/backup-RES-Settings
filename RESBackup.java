@@ -83,12 +83,17 @@ public class RESBackup {
         switch(this.os) {
         case "Windows 7":
         case "Windows 8":
-            File chrome = new File(CHROME_PATH_WIN78);
-            if (chrome.exists())
-                this.RES.add(chrome);
-            File chromium = new File(CHROMIUM_PATH_WIN78);
-            if (chromium.exists())
-                this.RES.add(chromium);
+            if (this.APPDATA == null)
+                System.out.println("The APPDATA variable is null, because of this"
+                        + " finding installs on WIN 7/8 is impossible.");
+            else {
+                File chrome = new File(this.APPDATA + CHROME_PATH_WIN78);
+                if (chrome.exists())
+                    this.RES.add(chrome);
+                File chromium = new File(this.APPDATA + CHROMIUM_PATH_WIN78);
+                if (chromium.exists())
+                    this.RES.add(chromium);
+            }
             break;
         case "Windows XP":
             //do windows xp stuff
