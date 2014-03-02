@@ -55,17 +55,6 @@ public class RESBackup {
         //
     }
     /**
-     * checkForRES -
-     *     Checks for RES installs on the specified
-     *     browsers.
-     *
-     * Sets RES to an array of strings representing 
-     *     browsers with RES installs.
-     */
-    private void checkForRES() {
-        //
-    }
-    /**
      * detectOperatingSystem -
      *     Checks the local machine for the
      *     which operating system it is running.
