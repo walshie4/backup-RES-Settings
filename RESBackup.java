@@ -144,6 +144,11 @@ public class RESBackup {
             //do win7/8 stuff
             break;
         case "Windows XP":
+            throw new NotSupportedException("The Firefox profile folder location"
+                    + " is not listed on the RES backup page. If you are "
+                    + "encountering this error and know the location of the "
+                    + "Firefox profile folder on Win. XP please submit it, "
+                    + "along with an issue report to have this fixed. Thanks!");
             //do win XP stuff
             break;
         case "Mac OS X":
