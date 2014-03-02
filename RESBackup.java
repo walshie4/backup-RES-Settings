@@ -136,6 +136,15 @@ public class RESBackup {
         }
     }
     /**
+     * findFirefoxProfile -
+     *     Finds the Firefox Profile folder
+     *
+     * @return path to profile folder
+     */
+    private String findFirefoxProfile() {
+        //TODO
+    }
+    /**
      * main - Runs the program
      *
      * @param args - Command-line arguments
