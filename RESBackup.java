@@ -133,20 +133,23 @@ public class RESBackup {
     }
     /**
      * findFirefoxProfile -
-     *     Finds the Firefox Profile folder
-     *
-     * @return path to profile folder
+     *     Finds the Firefox Profile folder, then calls findRESFile to
+     *     find the RES file inside the found Firefox Profile folder.
+     *     Finally, if a RES file is found it will be added to the
+     *     local RES arraylist.
      */
-    private String findFirefoxProfile() throws UnsupportedOperationException {
+    private void findFirefoxProfile() throws UnsupportedOperationException {
         switch(this.os) {
         case "Windows 7":
         case "Windows 8":
             if (this.APPDATA == null)
-                System.out.println("The APPDATA variable is set to null, because of"
-                        + " this the Firefox profile folder cannot be found on WIN "
-                        + "7/8");
+                throw new UnsupportedOperationException("The APPDATA variable is set"
+                        + " to null, because of this the Firefox profile folder "
+                        + "cannot be found on WIN 7/8");
             else {
                 File profileWin78 = new File(this.APPDATA + this.FF_PROFILE_WIN78);
+                if (profileWin78.exists()) 
+                    findRESFile(profileWin78);
             }
             break;
         case "Windows XP":
@@ -155,20 +158,35 @@ public class RESBackup {
                     + "encountering this error and know the location of the "
                     + "Firefox profile folder on Win. XP please submit it, "
                     + "along with an issue report to have this fixed. Thanks!");
-            //do win XP stuff
         case "Mac OS X":
             File profileMac = new File(this.FF_PROFILE_MAC);
+            if (profileMac.exists())
+                findRESFile(profileMac);
             File profileMacAlt = new File(this.FF_PROFILE_MAC_ALT);
-            //do mac stuff
+            if (profileMacAlt.exists())
+                findRESFile(profileMacAlt);
             break;
         case "Linux":
             File profileLinux = new File(this.FF_PROFILE_LINUX);
-            //do linux stuff
             break;
         default:
-            return "";
             //this should never run, unless called out of order
         }
+    }
+    /**
+     * findRESFile - 
+     *      looks through the passed directory for the RES settings file
+     *
+     * @param profileDir - File object which points to the directory which
+     *                     houses the Firefox Profile Folder on the local
+     *                     machine.
+     *
+     * @return File object pointing to RES settings file in passed dir
+     *
+     * Note: This function requires user interaction
+     */
+    private File findRESFile(File profileDir) {
+        //
     }
     /**
      * main - Runs the program
