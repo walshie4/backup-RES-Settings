@@ -210,8 +210,26 @@ public class RESBackup {
             //read each line in 'profiles.ini'
             BufferedReader reader = new BufferedReader(new FileReader(profileInfo));
             String line = null;
+            String name = ""; //will hold name of section in 'profiles.ini' file
+            boolean building = false; //true when still reading info on one section
             while ((line = reader.readLine()) != null) {
-                //inspect lines
+                if (building) { //building a Hashtable entry
+                    
+                }
+                else { //analyze line
+                    char[] chars = line.toCharArray();
+                    //if the line starts with '[' and ends with ']'
+                    if ((chars[0] == '[') && (chars[chars.length-1] == ']')) {
+                        name = line.substring(1, line.length() - 1);
+                        if (name.equals("General"))
+                            building = false;
+                        else
+                            building = true;
+                    }
+                    else { //not the start of a section and not building
+                        ;//do nothing
+                    }
+                }
             }
         } 
         catch(IOException e) {
