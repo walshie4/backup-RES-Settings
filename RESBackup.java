@@ -212,9 +212,32 @@ public class RESBackup {
             String line = null;
             String name = ""; //will hold name of section in 'profiles.ini' file
             boolean building = false; //true when still reading info on one section
+            boolean relativePath = false; //true if path for current profile being
+                    // built is relative to dir containing the profiles.ini file
+            File profile = null; //used to hold the profile file during building
             while ((line = reader.readLine()) != null) {
                 if (building) { //building a Hashtable entry
-                    
+                    if (line.substring(0,5).equals("Name="))
+                        name = line.substring(5,line.length()-1);
+                    else if (line.substring(0, 11).equals("IsRelative=")) {
+                        if (line.substring(11,line.length()-1).equals("1"))
+                            relativePath = true;
+                        else
+                            relativePath = false;
+                    }
+                    else if (line.substring(0,5).equals("Path=")) {
+                        if (relativePath) //build path off parent of info file
+                            profile = new File(profileInfo.getParentFile(),
+                                                line.substring(5,line.length()-1));
+                        else //custom path
+                            profile = new File(line.substring(5,line.length()-1));
+                    }
+                    else if (line.equals("")) { //empty (signals building is over)
+                        profiles.put(name, profile);
+                        building = false; //reset variables used on a loop level
+                        name = ""; 
+                        profile = null;
+                    }
                 }
                 else { //analyze line
                     char[] chars = line.toCharArray();
