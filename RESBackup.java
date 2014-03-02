@@ -191,6 +191,7 @@ public class RESBackup {
      */
     private File findRESFile(File profileDir) {
         Hashtable<String, File> profiles = getProfiles(new File(profileDir, "profiles.ini"));
+        return new File("test.txt");
     }
     /**
      * getProfiles -
@@ -216,45 +217,51 @@ public class RESBackup {
                     // built is relative to dir containing the profiles.ini file
             File profile = null; //used to hold the profile file during building
             while ((line = reader.readLine()) != null) {
+                System.out.println(line);
                 if (building) { //building a Hashtable entry
-                    if (line.substring(0,5).equals("Name="))
-                        name = line.substring(5,line.length()-1);
-                    else if (line.substring(0, 11).equals("IsRelative=")) {
-                        if (line.substring(11,line.length()-1).equals("1"))
-                            relativePath = true;
-                        else
-                            relativePath = false;
-                    }
-                    else if (line.substring(0,5).equals("Path=")) {
-                        if (relativePath) //build path off parent of info file
-                            profile = new File(profileInfo.getParentFile(),
-                                                line.substring(5,line.length()-1));
-                        else //custom path
-                            profile = new File(line.substring(5,line.length()-1));
-                    }
-                    else if (line.equals("")) { //empty (signals building is over)
+                    if (line.equals("")) { //empty (signals building is over)
                         profiles.put(name, profile);
                         building = false; //reset variables used on a loop level
                         name = ""; 
                         profile = null;
                     }
+                    else if (line.length() >= 5 && line.substring(0,5).equals("Name="))
+                        name = line.substring(5,line.length());
+                    else if (line.length() >= 11 && line.substring(0, 11).equals("IsRelative=")) {
+                        if (line.substring(11,line.length()).equals("1"))
+                            relativePath = true;
+                        else
+                            relativePath = false;
+                    }
+                    else if (line.length() >= 5 && line.substring(0,5).equals("Path=")) {
+                        if (relativePath) //build path off parent of info file
+                            profile = new File(profileInfo.getParentFile(),
+                                                line.substring(5,line.length()));
+                        else //custom path
+                            profile = new File(line.substring(5,line.length()));
+                    }//else skip line
                 }
                 else { //analyze line
-                    char[] chars = line.toCharArray();
-                    //if the line starts with '[' and ends with ']'
-                    if ((chars[0] == '[') && (chars[chars.length-1] == ']')) {
-                        name = line.substring(1, line.length() - 1);
-                        if (name.equals("General"))
-                            building = false;
-                        else
-                            building = true;
-                    }
-                    else { //not the start of a section and not building
-                        ;//do nothing
+                    if (line.length() == 0) {} //skip line
+                    else {
+                        char[] chars = line.toCharArray();
+                        //if the line starts with '[' and ends with ']'
+                        if ((chars[0] == '[') && (chars[chars.length-1] == ']')) {
+                            name = line.substring(1, line.length() - 1);
+                            if (name.equals("General"))
+                                building = false;
+                            else
+                                building = true;
+                        }
+                        else { //not the start of a section and not building
+                            ;//do nothing
+                        }
                     }
                 }
             }
-        } 
+            if (profile != null) //last profile has not been added (because of EOF)
+                profiles.put(name, profile);
+        }
         catch(IOException e) {
             System.err.format("IOException: %s%n", e);
         }
@@ -267,5 +274,7 @@ public class RESBackup {
      */
     public static void main(String[] args) {
         RESBackup backup = new RESBackup();
+//        File test = new File("test.txt");
+//        System.out.println(backup.getProfiles(test));
     }
 }
