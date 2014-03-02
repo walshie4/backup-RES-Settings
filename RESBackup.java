@@ -31,6 +31,11 @@ public class RESBackup {
         + "Chromium/Default";
     private final String CHROME_PATH_LINUX = "~/.config/google-chrome/Default/Local "
         + "Storage/chrome-extension_kbmfpngjjgdllneeigpgjifpgocmfgmb_0.localstorage";
+    private final String FF_PROFILE_MAC = "~/Library/Mozilla/Firefox/Profiles/";
+    private final String FF_PROFILE_MAC_ALT = "~/Library/Application Support/"
+        + "Firefox/Profiles/";
+    private final String FF_PROFILE_WIN78 = "/Mozilla/Firefox/Profiles/";
+    private final String FF_PROFILE_LINUX = "~/.mozilla/firefox/";
     private String os; /*String representation of the OS*/
     private ArrayList<File> RES; /*Contains File object representations of
                             installed browsers with RES installed as well.*/
@@ -135,19 +140,25 @@ public class RESBackup {
         switch(this.os) {
         case "Windows 7":
         case "Windows 8":
+            File profileWin78 = new File(this.APPDATA + this.FF_PROFILE_WIN78);
             //do win7/8 stuff
             break;
         case "Windows XP":
             //do win XP stuff
             break;
         case "Mac OS X":
+            File profileMac = new File(this.FF_PROFILE_MAC);
+            File profileMacAlt = new File(this.FF_PROFILE_MAC_ALT);
             //do mac stuff
             break;
         case "Linux":
+            File profileLinux = new File(this.FF_PROFILE_LINUX);
             //do linux stuff
             break;
         default:
-            //this should never run
+            return "";
+            //this should never run, unless called out of order
+        }
     }
     /**
      * main - Runs the program
