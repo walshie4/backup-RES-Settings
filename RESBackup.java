@@ -12,6 +12,7 @@
 
 import java.io.File;
 import java.util.ArrayList;
+import java.lang.UnsupportedOperationException;
 
 public class RESBackup {
     private String APPDATA; /*Holds path to users %APPDATA% dir*/
@@ -78,10 +79,10 @@ public class RESBackup {
      * Sets RES to an array containing File objects
      *      pointing to installed RES settings files
      *
-     * @exception NotSupportedException - thrown when the program encounters a
-     *                                    scenario it knows it does not yet support.
+     * @exception UnsupportedOperationException - thrown when the program encounters
+     *                                   a scenario it knows it does not yet support.
      */
-    private void detectRES() throws NotSupportedException{
+    private void detectRES() throws UnsupportedOperationException{
         detectOperatingSystem();
         switch(this.os) {
         case "Windows 7":
@@ -126,7 +127,7 @@ public class RESBackup {
             //look for firefox install
             break;
         default:
-            throw new NotSupportedException("Your OS isn't supported! Please report"
+            throw new UnsupportedOperationException("Your OS isn't supported! Please report"
                     + "this issue on the github project page. Thanks! :)");
         }
     }
@@ -136,21 +137,25 @@ public class RESBackup {
      *
      * @return path to profile folder
      */
-    private String findFirefoxProfile() {
+    private String findFirefoxProfile() throws UnsupportedOperationException {
         switch(this.os) {
         case "Windows 7":
         case "Windows 8":
-            File profileWin78 = new File(this.APPDATA + this.FF_PROFILE_WIN78);
-            //do win7/8 stuff
+            if (this.APPDATA == null)
+                System.out.println("The APPDATA variable is set to null, because of"
+                        + " this the Firefox profile folder cannot be found on WIN "
+                        + "7/8");
+            else {
+                File profileWin78 = new File(this.APPDATA + this.FF_PROFILE_WIN78);
+            }
             break;
         case "Windows XP":
-            throw new NotSupportedException("The Firefox profile folder location"
-                    + " is not listed on the RES backup page. If you are "
+            throw new UnsupportedOperationException("The Firefox profile folder"
+                    + " location is not listed on the RES backup page. If you are "
                     + "encountering this error and know the location of the "
                     + "Firefox profile folder on Win. XP please submit it, "
                     + "along with an issue report to have this fixed. Thanks!");
             //do win XP stuff
-            break;
         case "Mac OS X":
             File profileMac = new File(this.FF_PROFILE_MAC);
             File profileMacAlt = new File(this.FF_PROFILE_MAC_ALT);
