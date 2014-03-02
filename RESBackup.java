@@ -22,7 +22,9 @@ public class RESBackup {
     private final String CHROMIUM_PATH_WIN78 = "/Local/Chromium/"
         + "User Data/Default/Local Storage/chrome-extension_"
         + "kbmfpngjjgdllneeigpgjifpgocmfgmb_0.localstorage";
-//    private final String CHROME_WINXP = "
+    private final String CHROME_PATH_WINXP = "Local Settings/Application Data/Google"
+        + "/Chrome/User Data/Default/Local Storage/chrome-extension_"
+        + "kbmfpngjjgdllneeigpgjifpgocmfgmb_0.localstorage";
     private String os; /*String representation of the OS*/
     private ArrayList<File> RES; /*Contains File object representations of
                             installed browsers with RES installed as well.*/
@@ -87,16 +89,24 @@ public class RESBackup {
                 System.out.println("The APPDATA variable is null, because of this"
                         + " finding installs on WIN 7/8 is impossible.");
             else {
-                File chrome = new File(this.APPDATA + CHROME_PATH_WIN78);
-                if (chrome.exists())
-                    this.RES.add(chrome);
-                File chromium = new File(this.APPDATA + CHROMIUM_PATH_WIN78);
-                if (chromium.exists())
-                    this.RES.add(chromium);
+                File chrome78 = new File(this.APPDATA + CHROME_PATH_WIN78);
+                if (chrome78.exists())
+                    this.RES.add(chrome78);
+                File chromium78 = new File(this.APPDATA + CHROMIUM_PATH_WIN78);
+                if (chromium78.exists())
+                    this.RES.add(chromium78);
+                //look for firefox install
             }
             break;
         case "Windows XP":
-            //do windows xp stuff
+            if (this.HOME == null)
+                System.out.println("The HOME variable is null, because of this"
+                        + " finding installs on WIN XP is impossible.");
+            else {
+                File chromeXP = new File(this.HOME + CHROME_PATH_WINXP);
+                if (chromeXP.exists())
+                    this.RES.add(chromeXP);
+            }
             break;
         case "Mac OS X":
             //do mac stuff
