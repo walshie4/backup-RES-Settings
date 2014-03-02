@@ -29,6 +29,8 @@ public class RESBackup {
         + "Chrome/Default/Local Storage/";
     private final String CHROMIUM_PATH_OSX = "~/Library/Application Support/"
         + "Chromium/Default";
+    private final String CHROME_PATH_LINUX = "~/.config/google-chrome/Default/Local "
+        + "Storage/chrome-extension_kbmfpngjjgdllneeigpgjifpgocmfgmb_0.localstorage";
     private String os; /*String representation of the OS*/
     private ArrayList<File> RES; /*Contains File object representations of
                             installed browsers with RES installed as well.*/
@@ -123,7 +125,10 @@ public class RESBackup {
             //look for safari install
             break;
         case "Linux":
-            //do linux stuff
+            File chromeLinux = new File(this.CHROME_PATH_LINUX);
+            if (chromeLinux.exists())
+                this.RES.add(chromeLinux);
+            //look for firefox install
             break;
         default:
             throw new NotSupportedException("Your OS isn't supported! Please report"
