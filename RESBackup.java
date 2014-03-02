@@ -186,6 +186,21 @@ public class RESBackup {
      * Note: This function requires user interaction
      */
     private File findRESFile(File profileDir) {
+        String[] profiles = getProfiles(new File(profileDir, "profiles.ini"));
+    }
+    /**
+     * getProfiles -
+     *      looks through passed 'profiles.ini' file for lines that denote a new
+     *      profile, and fills a hashtable of profile names ==> File object
+     *      referring to the profile dir corresponding to the profile name
+     *
+     * @param profilesInfo - File object referring to the 'profiles.ini' file
+     *                       found in the same dir as Firefox profile dirs
+     *
+     * @return HashTable<String name, File profile> - filled with all found profiles
+     *                                                in passed directory
+     */
+    private Hashtable<String, File> getProfiles(File profileInfo) {
         //
     }
     /**
