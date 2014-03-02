@@ -14,13 +14,15 @@ import java.io.File;
 import java.util.ArrayList;
 
 public class RESBackup {
-    private final String CHROME_PATH_WIN78 = "%APPDATA%/Local/Google/Chrome/"
+    private String APPDATA; /*Holds path to users %APPDATA% dir*/
+    private String HOME; /*Holds path to users home dir*/
+    private final String CHROME_PATH_WIN78 = "/Local/Google/Chrome/"
         + "User Data/Default/Local Storage/chrome-extension_"
         + "kbmfpngjjgdllneeigpgjifpgocmfgmb_0.localstorage";
-    private final String CHROMIUM_PATH_WIN78 = "%APPDATA%/Local/Chromium/"
+    private final String CHROMIUM_PATH_WIN78 = "/Local/Chromium/"
         + "User Data/Default/Local Storage/chrome-extension_"
         + "kbmfpngjjgdllneeigpgjifpgocmfgmb_0.localstorage";
-    private final String CHROME_WINXP = "
+//    private final String CHROME_WINXP = "
     private String os; /*String representation of the OS*/
     private ArrayList<File> RES; /*Contains File object representations of
                             installed browsers with RES installed as well.*/
@@ -32,6 +34,10 @@ public class RESBackup {
      */
     public RESBackup() {
         this.RES = new ArrayList<File>();
+        this.APPDATA = System.getenv("APPDATA");
+        this.HOME = System.getenv("user.home");
+        if (this.HOME == null) //if null
+            this.HOME = System.getProperty("user.home"); //use backup way
     }
     /**
      * makeBackup -
@@ -104,6 +110,6 @@ public class RESBackup {
      * @param args - Command-line arguments
      */
     public static void main(String[] args) {
-        RESBackup backup = new RESBackup(); 
+        RESBackup backup = new RESBackup();
     }
 }
