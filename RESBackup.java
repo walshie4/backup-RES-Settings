@@ -13,6 +13,10 @@
 import java.io.File;
 import java.util.ArrayList;
 import java.lang.UnsupportedOperationException;
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
+import java.util.Hashtable;
 
 public class RESBackup {
     private String APPDATA; /*Holds path to users %APPDATA% dir*/
@@ -186,7 +190,7 @@ public class RESBackup {
      * Note: This function requires user interaction
      */
     private File findRESFile(File profileDir) {
-        String[] profiles = getProfiles(new File(profileDir, "profiles.ini"));
+        Hashtable<String, File> profiles = getProfiles(new File(profileDir, "profiles.ini"));
     }
     /**
      * getProfiles -
@@ -201,7 +205,19 @@ public class RESBackup {
      *                                                in passed directory
      */
     private Hashtable<String, File> getProfiles(File profileInfo) {
-        //
+        Hashtable<String, File> profiles = new Hashtable<String, File>();
+        try {
+            //read each line in 'profiles.ini'
+            BufferedReader reader = new BufferedReader(new FileReader(profileInfo));
+            String line = null;
+            while ((line = reader.readLine()) != null) {
+                //inspect lines
+            }
+        } 
+        catch(IOException e) {
+            System.err.format("IOException: %s%n", e);
+        }
+        return profiles;
     }
     /**
      * main - Runs the program
