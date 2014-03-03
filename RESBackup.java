@@ -17,6 +17,8 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.Hashtable;
+import java.util.Iterator;
+import java.util.Set;
 
 public class RESBackup {
     private String APPDATA; /*Holds path to users %APPDATA% dir*/
@@ -41,6 +43,8 @@ public class RESBackup {
         + "Firefox/Profiles/";
     private final String FF_PROFILE_WIN78 = "/Mozilla/Firefox/Profiles/";
     private final String FF_PROFILE_LINUX = "~/.mozilla/firefox/";
+    private final String FF_PROFILE_SUFFIX = "/jetpack/jid1-xUfzOsOFlzSOXg@jetpack"
+        + "/simple-storage/store.json";
     private String os; /*String representation of the OS*/
     private ArrayList<File> RES; /*Contains File object representations of
                             installed browsers with RES installed as well.*/
@@ -180,18 +184,23 @@ public class RESBackup {
     /**
      * findRESFile - 
      *      looks through the passed directory for the RES settings file
+     *      and adds it to the RES arraylist if the settings file found exists
      *
      * @param profileDir - File object which points to the directory which
      *                     houses the Firefox Profile Folder on the local
      *                     machine.
-     *
-     * @return File object pointing to RES settings file in passed dir
-     *
-     * Note: This function requires user interaction
      */
-    private File findRESFile(File profileDir) {
+    private void findRESFile(File profileDir) {
         Hashtable<String, File> profiles = getProfiles(new File(profileDir, "profiles.ini"));
-        return new File("test.txt");
+        Set<String> keys = profiles.keySet();
+        Iterator<String> it = keys.iterator();
+        while(it.hasNext()) {
+            //Create a file object based off the object corresponding to the current key
+            //as well as the common file path suffix for Firefox settings files
+            File settings = new File(profiles.get(it.next()), FF_PROFILE_SUFFIX); 
+            if (settings.exists())
+                this.RES.add(settings);
+        }
     }
     /**
      * getProfiles -
@@ -274,7 +283,5 @@ public class RESBackup {
      */
     public static void main(String[] args) {
         RESBackup backup = new RESBackup();
-//        File test = new File("test.txt");
-//        System.out.println(backup.getProfiles(test));
     }
 }
