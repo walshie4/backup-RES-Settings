@@ -140,7 +140,9 @@ public class RESBackup {
             throw new UnsupportedOperationException("Your OS isn't supported! Please report"
                     + " this issue on the github project page. Thanks! :)");
         }
-        System.out.println(this.RES);
+        System.out.println("The following RES settings files have been found:");
+        for (File file : this.RES)
+            System.out.println(file.getAbsolutePath());
     }
     /**
      * findFirefoxProfile -
@@ -214,13 +216,13 @@ public class RESBackup {
     /**
      * getProfiles -
      *      looks through passed 'profiles.ini' file for lines that denote a new
-     *      profile, and fills a hashtable of profile names ==> File object
+     *      profile, and fills a hashtable of profile names to File object
      *      referring to the profile dir corresponding to the profile name
      *
      * @param profilesInfo - File object referring to the 'profiles.ini' file
      *                       found in the same dir as Firefox profile dirs
      *
-     * @return HashTable<String name, File profile> - filled with all found profiles
+     * @return HashTabl<String name, File profile> - filled with all found profiles
      *                                                in passed directory
      */
     private Hashtable<String, File> getProfiles(File profileInfo) {
@@ -235,7 +237,6 @@ public class RESBackup {
                     // built is relative to dir containing the profiles.ini file
             File profile = null; //used to hold the profile file during building
             while ((line = reader.readLine()) != null) {
-                System.out.println(line);
                 if (building) { //building a Hashtable entry
                     if (line.equals("")) { //empty (signals building is over)
                         profiles.put(name, profile);
