@@ -13,8 +13,12 @@ import java.util.ArrayList;
 import java.io.File;
 import javax.swing.table.*;
 import java.util.Observable;
+import java.awt.BorderLayout;
+import java.awt.FlowLayout;
+import java.awt.Container;
+import java.awt.Dimension;
 
-public class RESBackupGUI<E> extends JFrame implements Observer {
+public class RESBackupGUI extends JFrame implements Observer {
     private JFrame win; /**Main window*/
     private RESBackup model; /**Model used with this view/control*/
     private JLabel os; /**Label to hold the found OS*/
@@ -32,7 +36,23 @@ public class RESBackupGUI<E> extends JFrame implements Observer {
         this.model.addObserver(this);
         this.table = generateTable(this.model.getFoundFiles());
         this.os = new JLabel(model.getOS());
-        win = new JFrame();
+        win = new JFrame("RES Backup / Restore Client");
+        win.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        Container pane = win.getContentPane();
+        final RESBackup finalModel = this.model;
+        JButton detectOS = new JButton("Detect OS");
+        JButton detectRES = new JButton("Detect RES installs");
+        JButton reset = new JButton("Reset");
+        JButton about = new JButton("About");
+        JPanel buttons = new JPanel(); //JPanel to hold buttons (at the bottom)
+        buttons.setLayout(new FlowLayout(FlowLayout.RIGHT, 4, 4));
+        //add action listeners to buttons here
+        buttons.add(about);//add in order from right to left
+        buttons.add(reset);
+        buttons.add(detectRES);
+        buttons.add(detectOS);
+        win.setPreferredSize(new Dimension(600,500));
+
     }
     /**
      * generateTable - create a new JTable to fit the data passed
