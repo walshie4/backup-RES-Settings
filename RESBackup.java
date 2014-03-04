@@ -78,6 +78,7 @@ public class RESBackup {
      */
     private void detectOperatingSystem() {
         this.os = System.getProperty("os.name").toLowerCase();
+        System.out.println("Detected Operating System: " + this.os);
     }
     /**
      * detectRES - 
@@ -105,7 +106,7 @@ public class RESBackup {
                 File chromium78 = new File(this.APPDATA + this.CHROMIUM_PATH_WIN78);
                 if (chromium78.exists())
                     this.RES.add(chromium78);
-                //look for firefox install
+                findFirefoxProfile();
             }
             break;
         case "Windows XP":
@@ -125,19 +126,21 @@ public class RESBackup {
             File chromiumOSX = new File(this.CHROMIUM_PATH_OSX);
             if (chromiumOSX.exists())
                 this.RES.add(chromiumOSX);
-            //look for firefox install
+            findFirefoxProfile();
             //look for safari install
             break;
         case "Linux":
+        case "linux":
             File chromeLinux = new File(this.CHROME_PATH_LINUX);
             if (chromeLinux.exists())
                 this.RES.add(chromeLinux);
-            //look for firefox install
+            findFirefoxProfile();
             break;
         default:
             throw new UnsupportedOperationException("Your OS isn't supported! Please report"
-                    + "this issue on the github project page. Thanks! :)");
+                    + " this issue on the github project page. Thanks! :)");
         }
+        System.out.println(this.RES);
     }
     /**
      * findFirefoxProfile -
@@ -175,10 +178,15 @@ public class RESBackup {
                 findRESFile(profileMacAlt);
             break;
         case "Linux":
-            File profileLinux = new File(this.FF_PROFILE_LINUX);
+        case "linux":
+            String path = FF_PROFILE_LINUX.replace("~", System.getProperty("user.home"));
+            File profileLinux = new File(path);
+            if (profileLinux.exists())
+                findRESFile(profileLinux);
             break;
         default:
-            //this should never run, unless called out of order
+            //this should never run, unless called out of order or switch does not
+            //match switch in detectRES()
         }
     }
     /**
@@ -191,6 +199,7 @@ public class RESBackup {
      *                     machine.
      */
     private void findRESFile(File profileDir) {
+        //build a hashtable of <String names, File profile> from the profiles.ini file
         Hashtable<String, File> profiles = getProfiles(new File(profileDir, "profiles.ini"));
         Set<String> keys = profiles.keySet();
         Iterator<String> it = keys.iterator();
@@ -283,5 +292,6 @@ public class RESBackup {
      */
     public static void main(String[] args) {
         RESBackup backup = new RESBackup();
+        backup.detectRES();
     }
 }
