@@ -8,10 +8,14 @@
 
 import javax.swing.*;
 import java.awt.event.*;
+import java.util.Observer;
+import java.util.ArrayList;
+import java.io.File;
 
 public class RESBackupGUI extends JFrame implements Observer {
     private JFrame win; /**Main window*/
     private RESBackup model; /**Model used with this view/control*/
+    private ArrayList<File> files; /**Used to hold the files being displayed*/
     /**
      * Constructor - Creates new RESBackupGUI object
      *
@@ -31,6 +35,7 @@ public class RESBackupGUI extends JFrame implements Observer {
      *
      */
     public void update(Observable t, Object o) {
-        //update
+        this.osTextField = this.model.getOS();
+        this.files = this.model.getFoundFiles();
     }
 }

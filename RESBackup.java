@@ -64,10 +64,33 @@ public class RESBackup extends Observable {
     }
     /**
      * makeBackup -
-     *     Makes a backup of the files referred to in RES
+     *     Makes a backup of the files passed
+     *
+     * @param filesToBackup - an arraylist of file objects pointing to
+     *                        found RES settings files that the user has
+     *                        elected to include in the backup.
      */
-    public void makeBackup() {
+    public void makeBackup(ArrayList<File> filesToBackup) {
         //
+    }
+    /**
+     * getOS - returns the internal string holding the detected OS value
+     *
+     * @return a String representation of the OS on the current machine, or
+     *         null if the OS has not yet been detected.
+     */
+    public String getOS() {
+        return this.os;
+    }
+    /**
+     * getFoundFiles - returns an arrayList of File objects that point to the found
+     *                 RES settings files
+     *
+     * @return ArrayList of File objects that refer to the known RES settings files
+     *         on the local machine.
+     */
+    public ArrayList<File> getFoundFiles() {
+        return this.RES;
     }
     /**
      * detectOperatingSystem -
