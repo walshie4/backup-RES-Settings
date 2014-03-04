@@ -19,8 +19,9 @@ import java.io.IOException;
 import java.util.Hashtable;
 import java.util.Iterator;
 import java.util.Set;
+import java.util.Observable;
 
-public class RESBackup {
+public class RESBackup extends Observable {
     private String APPDATA; /*Holds path to users %APPDATA% dir*/
     private String HOME; /*Holds path to users home dir*/
     private final String CHROME_PATH_WIN78 = "/Local/Google/Chrome/"
@@ -47,7 +48,7 @@ public class RESBackup {
         + "/simple-storage/store.json";
     private String os; /*String representation of the OS*/
     private ArrayList<File> RES; /*Contains File object representations of
-                            installed browsers with RES installed as well.*/
+                            found RES settings files*/
     /**
      * RESBackup -
      *     Constructor for RESBackup object
@@ -63,9 +64,9 @@ public class RESBackup {
     }
     /**
      * makeBackup -
-     *     Makes a backup of specified RES installs
+     *     Makes a backup of the files referred to in RES
      */
-    private void makeBackup() {
+    public void makeBackup() {
         //
     }
     /**
@@ -78,7 +79,8 @@ public class RESBackup {
      */
     private void detectOperatingSystem() {
         this.os = System.getProperty("os.name").toLowerCase();
-        System.out.println("Detected Operating System: " + this.os);
+        setChanged();
+        notifyObservers();
     }
     /**
      * detectRES - 
@@ -88,10 +90,11 @@ public class RESBackup {
      * Sets RES to an array containing File objects
      *      pointing to installed RES settings files
      *
+     * 
      * @exception UnsupportedOperationException - thrown when the program encounters
      *                                   a scenario it knows it does not yet support.
      */
-    private void detectRES() throws UnsupportedOperationException{
+    public void detectRES() throws UnsupportedOperationException{
         detectOperatingSystem();
         switch(this.os) {
         case "Windows 7":
@@ -140,9 +143,8 @@ public class RESBackup {
             throw new UnsupportedOperationException("Your OS isn't supported! Please report"
                     + " this issue on the github project page. Thanks! :)");
         }
-        System.out.println("The following RES settings files have been found:");
-        for (File file : this.RES)
-            System.out.println(file.getAbsolutePath());
+        setChanged();
+        notifyObservers();
     }
     /**
      * findFirefoxProfile -
@@ -222,7 +224,7 @@ public class RESBackup {
      * @param profilesInfo - File object referring to the 'profiles.ini' file
      *                       found in the same dir as Firefox profile dirs
      *
-     * @return HashTabl<String name, File profile> - filled with all found profiles
+     * @return HashTable<String name, File profile> - filled with all found profiles
      *                                                in passed directory
      */
     private Hashtable<String, File> getProfiles(File profileInfo) {
@@ -287,7 +289,7 @@ public class RESBackup {
         return profiles;
     }
     /**
-     * main - Runs the program
+     * main - Runs the program (debugging only)
      *
      * @param args - Command-line arguments
      */
