@@ -100,8 +100,9 @@ public class RESBackupGUI implements Observer {
                 return super.getColumnClass(col); } 
         };
         dataForTable.setColumnIdentifiers(new String[] {"Backup?", "File path"});
+        System.out.println(files.size()); //debug print
         for (File file : files) //add files w/ unchecked boxes
-            dataForTable.addRow(new Object[] {false, file});
+            dataForTable.addRow(new Object[] {false, file.toString()});
         JTable result = new JTable(dataForTable);
         result.getColumnModel().getColumn(0).setMaxWidth(80);
         result.setShowGrid(true);

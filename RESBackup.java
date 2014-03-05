@@ -127,6 +127,7 @@ public class RESBackup extends Observable {
      *                                   a scenario it knows it does not yet support.
      */
     public void detectRES() throws UnsupportedOperationException{
+        this.RES = new ArrayList<File>(); //reset the list contents
         detectOperatingSystem();
         switch(this.os) {
         case "Windows 7":
