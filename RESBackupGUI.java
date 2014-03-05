@@ -90,6 +90,7 @@ public class RESBackupGUI implements Observer {
      */
     private JTable generateTable(ArrayList<File> files) {
         DefaultTableModel dataForTable = new DefaultTableModel() { //2 col table
+            public static final long serialVersionUID = 42L;
             public int getColumnCount() { return 2; }
             public boolean isCellEditable(int x, int y) { 
                 return y == 0 && x != 0; } //not editable unless checkbox, not title
