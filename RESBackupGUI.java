@@ -17,6 +17,7 @@ import java.awt.BorderLayout;
 import java.awt.FlowLayout;
 import java.awt.Container;
 import java.awt.Dimension;
+import java.awt.Color;
 
 public class RESBackupGUI extends JFrame implements Observer {
     private JFrame win; /**Main window*/
@@ -52,7 +53,11 @@ public class RESBackupGUI extends JFrame implements Observer {
         buttons.add(detectRES);
         buttons.add(detectOS);
         win.setPreferredSize(new Dimension(600,500));
-
+        pane.add(buttons, BorderLayout.SOUTH);
+        pane.add(this.table, BorderLayout.CENTER);
+        win.pack();
+        win.setVisible(true);
+        win.validate();
     }
     /**
      * generateTable - create a new JTable to fit the data passed
@@ -67,11 +72,18 @@ public class RESBackupGUI extends JFrame implements Observer {
             public int getColumnCount() { return 2; }
             public int getRowCount() { return finalData.size(); } //as big as data
             public Object getValueAt(int x, int y) {
-                return finalData.get(y); } //return item in data at index y in column 2
+                if (x == 2)
+                    return finalData.get(y);//return item in data at index y
+                else
+                    return y;
+            }
             public boolean isCellEditable(int x, int y) { 
                 return false; } //not editable
         };
-        return new JTable(dataForTable);
+        JTable result = new JTable(dataForTable);
+        result.setShowGrid(true);
+        result.setGridColor(Color.BLACK);
+        return result;
     }
     /**
      * Update - Updates UI components which have had their data
@@ -84,5 +96,13 @@ public class RESBackupGUI extends JFrame implements Observer {
     public void update(Observable t, Object o) {
         this.os.setText(this.model.getOS());
         this.table = this.generateTable(this.model.getFoundFiles());
+    }
+    /**
+     * Main - Runs the program
+     *
+     * @param args - Command-line arguments
+     */
+    public static void main(String[] args) {
+        RESBackupGUI gui = new RESBackupGUI(new RESBackup());
     }
 }
