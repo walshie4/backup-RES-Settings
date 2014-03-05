@@ -23,6 +23,7 @@ public class RESBackupGUI implements Observer {
     private JFrame win; /**Main window*/
     private RESBackup model; /**Model used with this view/control*/
     private JLabel os; /**Label to hold the found OS*/
+    private DefaultTableModel tableModel; /**Model for the table*/
     private JTable table; /**Table to hold data*/
     private JScrollPane scrollPane; /**Scroll pane which will hold the table*/
     /**
@@ -35,7 +36,22 @@ public class RESBackupGUI implements Observer {
     public RESBackupGUI(RESBackup model) {
         this.model = model;
         this.model.addObserver(this);
-        this.table = generateTable(this.model.getFoundFiles());
+        this.tableModel = new DefaultTableModel() {
+            public boolean isCellEditable(int row, int col) {
+                return row != 0 && col == 0; //editable if checkbox
+            }
+            public int getColumnCount() { return 2; }
+            public Class<?> getColumnClass(int col) {
+                if (col == 0)
+                    return Boolean.class; //checkbox
+                return super.getColumnClass(col); }
+        };
+        this.tableModel.setColumnIdentifiers(new String[] {"Backup?", "File Path"});
+        this.table = new JTable();
+        this.table.setModel(this.tableModel);
+        this.table.setShowGrid(true);
+        this.table.setGridColor(Color.BLACK);
+        this.table.getColumnModel().getColumn(0).setMaxWidth(80);
         this.os = new JLabel("Detected OS: " + model.getOS());
         this.scrollPane = new JScrollPane(this.table);
         win = new JFrame("RES Backup / Restore Client");
@@ -82,32 +98,19 @@ public class RESBackupGUI implements Observer {
         win.validate();
     }
     /**
-     * generateTable - create a new JTable to fit the data passed
+     * updateTable - updates the table with the data passed
      *
-     * @param files - ArrayList of files to display
-     *
-     * @return JTable made to fit the data passed
+     * @param files - ArrayList<File> of files to display
      */
-    private JTable generateTable(ArrayList<File> files) {
-        DefaultTableModel dataForTable = new DefaultTableModel() { //2 col table
-            public static final long serialVersionUID = 42L;
-            public int getColumnCount() { return 2; }
-            public boolean isCellEditable(int x, int y) { 
-                return y == 0 && x != 0; } //not editable unless checkbox, not title
-            public Class<?> getColumnClass(int col) {
-                if (col == 0)
-                    return Boolean.class; //checkbox
-                return super.getColumnClass(col); } 
-        };
-        dataForTable.setColumnIdentifiers(new String[] {"Backup?", "File path"});
-        System.out.println(files.size()); //debug print
-        for (File file : files) //add files w/ unchecked boxes
-            dataForTable.addRow(new Object[] {false, file.toString()});
-        JTable result = new JTable(dataForTable);
-        result.getColumnModel().getColumn(0).setMaxWidth(80);
-        result.setShowGrid(true);
-        result.setGridColor(Color.BLACK);
-        return result;
+    private void updateTable(ArrayList<File> files) {
+        this.tableModel.setRowCount(files.size());
+        int row = 0;
+        for (File file : files) {
+            model.setValueAt(false, row, 0);
+            model.setValueAt(file, row, 1);
+            row += 1;
+        }
+        this.table.setModel(this.tableModel);
     }
     /**
      * Update - Updates UI components which have had their data
@@ -119,7 +122,8 @@ public class RESBackupGUI implements Observer {
      */
     public void update(Observable t, Object o) {
         this.os.setText("Detected OS: " + this.model.getOS());
-        this.table = this.generateTable(this.model.getFoundFiles());
+        this.table.getTableModel();
+        //need to update table in UI
     }
     /**
      * Main - Runs the program
