@@ -37,6 +37,7 @@ public class RESBackupGUI extends JFrame implements Observer {
         this.model.addObserver(this);
         this.table = generateTable(this.model.getFoundFiles());
         this.os = new JLabel("Detected OS: " + model.getOS());
+        this.scrollPane = new JScrollPane(this.table);
         win = new JFrame("RES Backup / Restore Client");
         win.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         Container pane = win.getContentPane();
@@ -55,7 +56,7 @@ public class RESBackupGUI extends JFrame implements Observer {
         win.setPreferredSize(new Dimension(600,500));
         pane.add(os, BorderLayout.NORTH);
         pane.add(buttons, BorderLayout.SOUTH);
-        pane.add(this.table, BorderLayout.CENTER);
+        pane.add(this.scrollPane, BorderLayout.CENTER);
         win.pack();
         win.setVisible(true);
         win.validate();
@@ -67,21 +68,21 @@ public class RESBackupGUI extends JFrame implements Observer {
      *
      * @return JTable made to fit the data passed
      */
-    private JTable generateTable(ArrayList<File> data) {
-        final ArrayList<File> finalData = data;
-        TableModel dataForTable = new AbstractTableModel() { //2 col table
+    private JTable generateTable(ArrayList<File> files) {
+        DefaultTableModel dataForTable = new DefaultTableModel() { //2 col table
             public int getColumnCount() { return 2; }
-            public int getRowCount() { return finalData.size(); } //as big as data
-            public Object getValueAt(int x, int y) {
-                if (x == 2)
-                    return finalData.get(y);//return item in data at index y
-                else
-                    return y;
-            }
             public boolean isCellEditable(int x, int y) { 
-                return false; } //not editable
+                return y == 0 && x != 0; } //not editable unless checkbox, not title
+            public Class<?> getColumnClass(int col) {
+                if (col == 0)
+                    return Boolean.class; //checkbox
+                return super.getColumnClass(col); } 
         };
+        dataForTable.setColumnIdentifiers(new String[] {"Backup?", "File path"});
+        for (File file : files) //add files w/ checkboxes
+            dataForTable.addRow(new Object[] {false, file}); 
         JTable result = new JTable(dataForTable);
+        result.getColumnModel().getColumn(0).setMaxWidth(80);
         result.setShowGrid(true);
         result.setGridColor(Color.BLACK);
         return result;
