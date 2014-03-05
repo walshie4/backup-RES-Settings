@@ -36,7 +36,7 @@ public class RESBackupGUI extends JFrame implements Observer {
         this.model = model;
         this.model.addObserver(this);
         this.table = generateTable(this.model.getFoundFiles());
-        this.os = new JLabel(model.getOS());
+        this.os = new JLabel("Detected OS: " + model.getOS());
         win = new JFrame("RES Backup / Restore Client");
         win.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         Container pane = win.getContentPane();
@@ -53,6 +53,7 @@ public class RESBackupGUI extends JFrame implements Observer {
         buttons.add(detectRES);
         buttons.add(detectOS);
         win.setPreferredSize(new Dimension(600,500));
+        pane.add(os, BorderLayout.NORTH);
         pane.add(buttons, BorderLayout.SOUTH);
         pane.add(this.table, BorderLayout.CENTER);
         win.pack();
@@ -94,7 +95,7 @@ public class RESBackupGUI extends JFrame implements Observer {
      *
      */
     public void update(Observable t, Object o) {
-        this.os.setText(this.model.getOS());
+        this.os.setText("Detected OS: " + this.model.getOS());
         this.table = this.generateTable(this.model.getFoundFiles());
     }
     /**
