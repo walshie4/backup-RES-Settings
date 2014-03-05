@@ -100,8 +100,17 @@ public class RESBackup extends Observable {
      * Sets os to a string representation of the
      *      operating system on the local machine.
      */
-    private void detectOperatingSystem() {
+    public void detectOperatingSystem() {
         this.os = System.getProperty("os.name").toLowerCase();
+        setChanged();
+        notifyObservers();
+    }
+    /**
+     * reset - resets the instance variables and UI
+     */
+    public void reset() {
+        this.os = null;
+        this.RES = new ArrayList<File>();
         setChanged();
         notifyObservers();
     }

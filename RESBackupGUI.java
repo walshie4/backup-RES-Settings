@@ -19,7 +19,7 @@ import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.Color;
 
-public class RESBackupGUI extends JFrame implements Observer {
+public class RESBackupGUI implements Observer {
     private JFrame win; /**Main window*/
     private RESBackup model; /**Model used with this view/control*/
     private JLabel os; /**Label to hold the found OS*/
@@ -48,7 +48,27 @@ public class RESBackupGUI extends JFrame implements Observer {
         JButton about = new JButton("About");
         JPanel buttons = new JPanel(); //JPanel to hold buttons (at the bottom)
         buttons.setLayout(new FlowLayout(FlowLayout.RIGHT, 4, 4));
-        //add action listeners to buttons here
+        final RESBackup mod = this.model; /**Final model to be used in listeners*/
+        about.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                //show about window
+            }
+        });
+        reset.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                mod.reset();
+            }
+        });
+        detectRES.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                mod.detectRES();
+            }
+        });
+        detectOS.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                mod.detectOperatingSystem();
+            }
+        });
         buttons.add(about);//add in order from right to left
         buttons.add(reset);
         buttons.add(detectRES);
@@ -79,8 +99,8 @@ public class RESBackupGUI extends JFrame implements Observer {
                 return super.getColumnClass(col); } 
         };
         dataForTable.setColumnIdentifiers(new String[] {"Backup?", "File path"});
-        for (File file : files) //add files w/ checkboxes
-            dataForTable.addRow(new Object[] {false, file}); 
+        for (File file : files) //add files w/ unchecked boxes
+            dataForTable.addRow(new Object[] {false, file});
         JTable result = new JTable(dataForTable);
         result.getColumnModel().getColumn(0).setMaxWidth(80);
         result.setShowGrid(true);
