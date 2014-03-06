@@ -46,6 +46,8 @@ public class RESBackup extends Observable {
     private final String FF_PROFILE_LINUX = "~/.mozilla/firefox/";
     private final String FF_PROFILE_SUFFIX = "/jetpack/jid1-xUfzOsOFlzSOXg@jetpack"
         + "/simple-storage/store.json";
+    private final String SAFARI_FILE_HEAD = "safari-extension_com.honestbleeps."
+        + "redditenhancementsuite-";
     private String os; /*String representation of the OS*/
     private ArrayList<File> RES; /*Contains File object representations of
                             found RES settings files*/
@@ -184,9 +186,7 @@ public class RESBackup extends Observable {
      *     Finds the Opera RES settings file, and adds it to the local RES ArrayList
      *
      * @exception UnsupportedOperationException - thrown if home system property is
-     *                                            null, or file is not found. This 
-     *                                            usually indicates that your file 
-     *                                            is stored in a different location
+     *                                            null.
      */
     private void findOperaWindows() {
         //find windows opera file
@@ -196,7 +196,19 @@ public class RESBackup extends Observable {
      *     Finds the Safrai RES settings file, and adds it to the local RES ArrayList
      */
     private void findSafariOSX() {
-        //find mac safari file
+        String path = "~/Library/Safari/LocalStorage/";
+        File settings = findSafariFile();
+    }
+    /**
+     * findSafariFile -
+     *     Finds the Safari RES settings file based off the start of the file name
+     *
+     * @return File object pointing to the RES settings file
+     */
+    private File findSafariFile() {
+        //find safari file
+        //uses SAFARI_FILE_HEAD variable
+        return new File(""); //place holder
     }
     /**
      * findFirefoxProfile -
