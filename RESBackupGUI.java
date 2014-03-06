@@ -39,7 +39,7 @@ public class RESBackupGUI implements Observer {
         this.tableModel = new DefaultTableModel() {
             private static final long serialVersionUID=42L;
             public boolean isCellEditable(int row, int col) {
-                return row != 0 && col == 0; //editable if checkbox
+                return col == 0; //editable if checkbox
             }
             public int getColumnCount() { return 2; }
             public Class<?> getColumnClass(int col) {
@@ -123,8 +123,7 @@ public class RESBackupGUI implements Observer {
      */
     public void update(Observable t, Object o) {
         this.os.setText("Detected OS: " + this.model.getOS());
-        this.updateTable(this.model.getFoundFiles());
-        //need to update table in UI
+        updateTable(this.model.getFoundFiles());
     }
     /**
      * Main - Runs the program
