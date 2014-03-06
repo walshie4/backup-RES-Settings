@@ -134,8 +134,9 @@ public class RESBackup extends Observable {
         case "Windows 7":
         case "Windows 8":
             if (this.APPDATA == null)
-                System.out.println("The APPDATA variable is null, because of this"
-                        + " finding installs on WIN 7/8 is impossible.");
+                throw new UnsupportedOperationException("The APPDATA variable is "
+                        + "null, because of this finding installs on WIN 7/8 is "
+                        + "impossible.");
             else {
                 File chrome78 = new File(this.APPDATA + this.CHROME_PATH_WIN78);
                 if (chrome78.exists())
@@ -145,15 +146,23 @@ public class RESBackup extends Observable {
                     this.RES.add(chromium78);
                 findFirefoxProfile();
             }
+            if (this.HOME == null)
+                throw new UnsupportedOperationException("The user home directory "
+                        + "system property is null, beacuse of this finding Opera "
+                        + "on windows is impossible.");
+            else
+                findOperaWindows();
             break;
         case "Windows XP":
             if (this.HOME == null)
-                System.out.println("The HOME variable is null, because of this"
-                        + " finding installs on WIN XP is impossible.");
+                throw new UnsupportedOperationException("The HOME variable is null, "
+                        + "because of this finding installs on WIN XP is "
+                        + "impossible.");
             else {
                 File chromeXP = new File(this.HOME + this.CHROME_PATH_WINXP);
                 if (chromeXP.exists())
                     this.RES.add(chromeXP);
+                findOperaWindows();
             }
             break;
         case "Mac OS X":
@@ -164,7 +173,7 @@ public class RESBackup extends Observable {
             if (chromiumOSX.exists())
                 this.RES.add(chromiumOSX);
             findFirefoxProfile();
-            //look for safari install
+            findSafariOSX();
             break;
         case "Linux":
         case "linux":
@@ -183,14 +192,8 @@ public class RESBackup extends Observable {
     /**
      * findOperaWindows -
      *     Finds the Opera RES settings file, and adds it to the local RES ArrayList
-     *
-     * @exception UnsupportedOperationException - thrown if home system property is
-     *                                            null.
      */
     private void findOperaWindows() {
-        if (this.HOME == null)
-            throw new UnsupportedOperationException("User home directory system "
-                    + "property is not set, so Opera cannot be detected");
         //find windows opera file
     }
     /**
