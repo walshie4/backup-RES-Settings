@@ -180,6 +180,25 @@ public class RESBackup extends Observable {
         notifyObservers();
     }
     /**
+     * findOperaWindows -
+     *     Finds the Opera RES settings file, and adds it to the local RES ArrayList
+     *
+     * @exception UnsupportedOperationException - thrown if home system property is
+     *                                            null, or file is not found. This 
+     *                                            usually indicates that your file 
+     *                                            is stored in a different location
+     */
+    private void findOperaWindows() {
+        //find windows opera file
+    }
+    /**
+     * findSafariOSX - 
+     *     Finds the Safrai RES settings file, and adds it to the local RES ArrayList
+     */
+    private void findSafariOSX() {
+        //find mac safari file
+    }
+    /**
      * findFirefoxProfile -
      *     Finds the Firefox Profile folder, then calls findRESFile to
      *     find the RES file inside the found Firefox Profile folder.
