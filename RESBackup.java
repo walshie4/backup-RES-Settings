@@ -124,7 +124,6 @@ public class RESBackup extends Observable {
      * Sets RES to an array containing File objects
      *      pointing to installed RES settings files
      *
-     * 
      * @exception UnsupportedOperationException - thrown when the program encounters
      *                                   a scenario it knows it does not yet support.
      */
@@ -189,14 +188,25 @@ public class RESBackup extends Observable {
      *                                            null.
      */
     private void findOperaWindows() {
+        if (this.HOME == null)
+            throw new UnsupportedOperationException("User home directory system "
+                    + "property is not set, so Opera cannot be detected");
         //find windows opera file
     }
     /**
      * findSafariOSX - 
      *     Finds the Safrai RES settings file, and adds it to the local RES ArrayList
+     *
+     * @exception UnsupportedOperationException - thrown when the user home system
+     *                                            property / enviroment variable
+     *                                            is null
      */
-    private void findSafariOSX() {
+    private void findSafariOSX() throws UnsupportedOperationException {
+        if (this.HOME == null)
+            throw new UnsupportedOperationException("User home directory system "
+                    + "property is not set, so Safari cannot be detected");
         String path = "~/Library/Safari/LocalStorage/";
+        path.replace("~", this.HOME);
         File settings = findSafariFile();
     }
     /**
@@ -216,6 +226,11 @@ public class RESBackup extends Observable {
      *     find the RES file inside the found Firefox Profile folder.
      *     Finally, if a RES file is found it will be added to the
      *     local RES arraylist.
+     *
+     * @exception UnsupportedOperationException - thrown when a system property /
+     *                                            enviroment variable is null,
+     *                                            making finding the profile
+     *                                            impossible.
      */
     private void findFirefoxProfile() throws UnsupportedOperationException {
         switch(this.os) {
@@ -225,11 +240,9 @@ public class RESBackup extends Observable {
                 throw new UnsupportedOperationException("The APPDATA variable is set"
                         + " to null, because of this the Firefox profile folder "
                         + "cannot be found on WIN 7/8");
-            else {
-                File profileWin78 = new File(this.APPDATA + this.FF_PROFILE_WIN78);
-                if (profileWin78.exists()) 
-                    findRESFile(profileWin78);
-            }
+            File profileWin78 = new File(this.APPDATA + this.FF_PROFILE_WIN78);
+            if (profileWin78.exists()) 
+                findRESFile(profileWin78);
             break;
         case "Windows XP":
             throw new UnsupportedOperationException("The Firefox profile folder"
@@ -247,7 +260,11 @@ public class RESBackup extends Observable {
             break;
         case "Linux":
         case "linux":
-            String path = FF_PROFILE_LINUX.replace("~", System.getProperty("user.home"));
+            if (this.HOME == null)
+                throw new UnsupportedOperationException("User home directory system "
+                        + "property/enviroment variable is not set, so finding "
+                        + "Firefox RES files is impossible");
+            String path = FF_PROFILE_LINUX.replace("~", this.HOME);
             File profileLinux = new File(path);
             if (profileLinux.exists())
                 findRESFile(profileLinux);
