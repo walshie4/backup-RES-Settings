@@ -37,6 +37,7 @@ public class RESBackupGUI implements Observer {
         this.model = model;
         this.model.addObserver(this);
         this.tableModel = new DefaultTableModel() {
+            private static final long serialVersionUID=42L;
             public boolean isCellEditable(int row, int col) {
                 return row != 0 && col == 0; //editable if checkbox
             }
@@ -106,8 +107,8 @@ public class RESBackupGUI implements Observer {
         this.tableModel.setRowCount(files.size());
         int row = 0;
         for (File file : files) {
-            model.setValueAt(false, row, 0);
-            model.setValueAt(file, row, 1);
+            tableModel.setValueAt(false, row, 0);
+            tableModel.setValueAt(file, row, 1);
             row += 1;
         }
         this.table.setModel(this.tableModel);
@@ -122,7 +123,7 @@ public class RESBackupGUI implements Observer {
      */
     public void update(Observable t, Object o) {
         this.os.setText("Detected OS: " + this.model.getOS());
-        this.table.getTableModel();
+        this.updateTable(this.model.getFoundFiles());
         //need to update table in UI
     }
     /**
