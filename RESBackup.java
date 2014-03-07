@@ -171,16 +171,18 @@ public class RESBackup extends Observable {
                 throw new UnsupportedOperationException("The HOME variable is null, "
                         + "because of this finding installs on MAC OS X is "
                         + "impossible.");
-            String chrome = this.CHROME_PATH_OSX.replace("~", this.HOME);
-            File chromeOSX = new File(chrome);
-            if (chromeOSX.exists())
-                this.RES.add(chromeOSX);
-            String chromium = this.CHROMIUM_PATH_OSX.replace("~", this.HOME);
-            File chromiumOSX = new File(chromium);
-            if (chromiumOSX.exists())
-                this.RES.add(chromiumOSX);
-            findFirefoxProfile();
-            findSafariOSX();
+            else {
+                String chrome = this.CHROME_PATH_OSX.replace("~", this.HOME);
+                File chromeOSX = new File(chrome);
+                if (chromeOSX.exists())
+                    this.RES.add(chromeOSX);
+                String chromium = this.CHROMIUM_PATH_OSX.replace("~", this.HOME);
+                File chromiumOSX = new File(chromium);
+                if (chromiumOSX.exists())
+                    this.RES.add(chromiumOSX);
+                findFirefoxProfile();
+                findSafariOSX();
+            }
             break;
         case "Linux":
         case "linux":
@@ -188,11 +190,13 @@ public class RESBackup extends Observable {
                 throw new UnsupportedOperationException("User's home directory "
                         + "cannot be found, because of this it is impossible to "
                         + "find chrome's RES file");
-            String chrome = this.CHROME_PATH_LINUX.replace("~", this.HOME);
-            File chromeLinux = new File(chrome);
-            if (chromeLinux.exists())
-                this.RES.add(chromeLinux);
-            findFirefoxProfile();
+            else {
+                String chrome = this.CHROME_PATH_LINUX.replace("~", this.HOME);
+                File chromeLinux = new File(chrome);
+                if (chromeLinux.exists())
+                    this.RES.add(chromeLinux);
+                findFirefoxProfile();
+            }
             break;
         default:
             throw new UnsupportedOperationException("Your OS isn't supported! Please report"
@@ -251,10 +255,6 @@ public class RESBackup extends Observable {
         switch(this.os) {
         case "Windows 7":
         case "Windows 8":
-            if (this.APPDATA == null)
-                throw new UnsupportedOperationException("The APPDATA variable is set"
-                        + " to null, because of this the Firefox profile folder "
-                        + "cannot be found on WIN 7/8");
             File profileWin78 = new File(this.APPDATA + this.FF_PROFILE_WIN78);
             if (profileWin78.exists()) 
                 findRESFile(profileWin78);
@@ -267,10 +267,6 @@ public class RESBackup extends Observable {
                     + "along with an issue report to have this fixed. Thanks!");
         case "Mac OS X":
         case "mac os x":
-            if (this.HOME == null)
-                throw new UnsupportedOperationException("The user's home directory "
-                        + "could not be found, because of this Firefox's profile "
-                        + "folder cannot be found.");
             String path = this.FF_PROFILE_MAC.replace("~", this.HOME);
             File profileMac = new File(path + "profiles.ini");
             if (profileMac.exists())
@@ -282,10 +278,6 @@ public class RESBackup extends Observable {
             break;
         case "Linux":
         case "linux":
-            if (this.HOME == null)
-                throw new UnsupportedOperationException("User home directory system "
-                        + "property/enviroment variable is not set, so finding "
-                        + "Firefox RES files is impossible");
             String firefox = FF_PROFILE_LINUX.replace("~", this.HOME);
             File profileLinux = new File(firefox);
             if (profileLinux.exists())
