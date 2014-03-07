@@ -166,10 +166,17 @@ public class RESBackup extends Observable {
             }
             break;
         case "Mac OS X":
-            File chromeOSX = new File(this.CHROME_PATH_OSX);
+        case "mac os x":
+            if (this.HOME == null)
+                throw new UnsupportedOperationException("The HOME variable is null, "
+                        + "because of this finding installs on MAC OS X is "
+                        + "impossible.");
+            String chrome = this.CHROME_PATH_OSX.replace("~", this.HOME);
+            File chromeOSX = new File(chrome);
             if (chromeOSX.exists())
                 this.RES.add(chromeOSX);
-            File chromiumOSX = new File(this.CHROMIUM_PATH_OSX);
+            String chromium = this.CHROMIUM_PATH_OSX.replace("~", this.HOME);
+            File chromiumOSX = new File(chromium);
             if (chromiumOSX.exists())
                 this.RES.add(chromiumOSX);
             findFirefoxProfile();
@@ -254,10 +261,17 @@ public class RESBackup extends Observable {
                     + "Firefox profile folder on Win. XP please submit it, "
                     + "along with an issue report to have this fixed. Thanks!");
         case "Mac OS X":
-            File profileMac = new File(this.FF_PROFILE_MAC);
+        case "mac os x":
+            if (this.HOME == null)
+                throw new UnsupportedOperationException("The user's home directory "
+                        + "could not be found, because of this Firefox's profile "
+                        + "folder cannot be found.");
+            String path = this.FF_PROFILE_MAC.replace("~", this.HOME);
+            File profileMac = new File(path);
             if (profileMac.exists())
                 findRESFile(profileMac);
-            File profileMacAlt = new File(this.FF_PROFILE_MAC_ALT);
+            String altPath = this.FF_PROFILE_MAC_ALT.replace("~", this.HOME);
+            File profileMacAlt = new File(altPath);
             if (profileMacAlt.exists())
                 findRESFile(profileMacAlt);
             break;
@@ -267,8 +281,8 @@ public class RESBackup extends Observable {
                 throw new UnsupportedOperationException("User home directory system "
                         + "property/enviroment variable is not set, so finding "
                         + "Firefox RES files is impossible");
-            String path = FF_PROFILE_LINUX.replace("~", this.HOME);
-            File profileLinux = new File(path);
+            String firefox = FF_PROFILE_LINUX.replace("~", this.HOME);
+            File profileLinux = new File(firefox);
             if (profileLinux.exists())
                 findRESFile(profileLinux);
             break;
