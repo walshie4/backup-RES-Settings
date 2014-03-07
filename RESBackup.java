@@ -184,7 +184,12 @@ public class RESBackup extends Observable {
             break;
         case "Linux":
         case "linux":
-            File chromeLinux = new File(this.CHROME_PATH_LINUX);
+            if (this.HOME == null)
+                throw new UnsupportedOperationException("User's home directory "
+                        + "cannot be found, because of this it is impossible to "
+                        + "find chrome's RES file");
+            String chrome = this.CHROME_PATH_LINUX.replace("~", this.HOME);
+            File chromeLinux = new File(chrome);
             if (chromeLinux.exists())
                 this.RES.add(chromeLinux);
             findFirefoxProfile();
