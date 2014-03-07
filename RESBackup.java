@@ -41,7 +41,7 @@ public class RESBackup extends Observable {
         + "Storage/chrome-extension_kbmfpngjjgdllneeigpgjifpgocmfgmb_0.localstorage";
     private final String FF_PROFILE_MAC = "~/Library/Mozilla/Firefox/Profiles/";
     private final String FF_PROFILE_MAC_ALT = "~/Library/Application Support/"
-        + "Firefox/Profiles/";
+        + "Firefox/";
     private final String FF_PROFILE_WIN78 = "/Mozilla/Firefox/Profiles/";
     private final String FF_PROFILE_LINUX = "~/.mozilla/firefox/";
     private final String FF_PROFILE_SUFFIX = "/jetpack/jid1-xUfzOsOFlzSOXg@jetpack"
@@ -267,13 +267,13 @@ public class RESBackup extends Observable {
                         + "could not be found, because of this Firefox's profile "
                         + "folder cannot be found.");
             String path = this.FF_PROFILE_MAC.replace("~", this.HOME);
-            File profileMac = new File(path);
+            File profileMac = new File(path + "profiles.ini");
             if (profileMac.exists())
-                findRESFile(profileMac);
+                findRESFile(new File(path));
             String altPath = this.FF_PROFILE_MAC_ALT.replace("~", this.HOME);
-            File profileMacAlt = new File(altPath);
+            File profileMacAlt = new File(altPath + "profiles.ini");
             if (profileMacAlt.exists())
-                findRESFile(profileMacAlt);
+                findRESFile(new File(altPath));
             break;
         case "Linux":
         case "linux":
@@ -394,5 +394,6 @@ public class RESBackup extends Observable {
     public static void main(String[] args) {
         RESBackup backup = new RESBackup();
         backup.detectRES();
+        System.out.println(backup.getFoundFiles());
     }
 }
