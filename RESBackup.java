@@ -246,10 +246,9 @@ public class RESBackup extends Observable {
      *     Finally, if a RES file is found it will be added to the
      *     local RES arraylist.
      *
-     * @exception UnsupportedOperationException - thrown when a system property /
-     *                                            enviroment variable is null,
-     *                                            making finding the profile
-     *                                            impossible.
+     * @exception UnsupportedOperationException - thrown when you OS is one
+     *                                            that does not have a known
+     *                                            Firefox profiles location
      */
     private void findFirefoxProfile() throws UnsupportedOperationException {
         switch(this.os) {
