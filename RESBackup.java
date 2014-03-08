@@ -215,15 +215,8 @@ public class RESBackup extends Observable {
     /**
      * findSafariOSX - 
      *     Finds the Safrai RES settings file, and adds it to the local RES ArrayList
-     *
-     * @exception UnsupportedOperationException - thrown when the user home system
-     *                                            property / enviroment variable
-     *                                            is null
      */
     private void findSafariOSX() throws UnsupportedOperationException {
-        if (this.HOME == null)
-            throw new UnsupportedOperationException("User home directory system "
-                    + "property is not set, so Safari cannot be detected");
         String path = "~/Library/Safari/LocalStorage/";
         path.replace("~", this.HOME);
         File settings = findSafariFile();
