@@ -167,6 +167,7 @@ public class RESBackupGUI implements Observer {
             System.err.println(syntax.getMessage());
         }
         about.setVisible(true);
+        about.setSize(400,400);
         return about;
     }
     /**
