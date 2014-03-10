@@ -18,6 +18,10 @@ import java.awt.FlowLayout;
 import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.Color;
+import java.awt.Desktop;
+import java.net.URI;
+import java.io.IOException;
+import java.net.URISyntaxException;
 
 public class RESBackupGUI implements Observer {
     private JFrame win; /**Main window*/
@@ -68,7 +72,7 @@ public class RESBackupGUI implements Observer {
         final RESBackup mod = this.model; /**Final model to be used in listeners*/
         about.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                //show about window
+                aboutWindow();
             }
         });
         reset.addActionListener(new ActionListener() {
@@ -114,7 +118,7 @@ public class RESBackupGUI implements Observer {
         this.table.setModel(this.tableModel);
     }
     /**
-     * Update - Updates UI components which have had their data
+     * update - Updates UI components which have had their data
      *          changed in the model
      *
      * @param t - unused
@@ -124,6 +128,46 @@ public class RESBackupGUI implements Observer {
     public void update(Observable t, Object o) {
         this.os.setText("Detected OS: " + this.model.getOS());
         updateTable(this.model.getFoundFiles());
+    }
+    /**
+     * aboutWindow - returns a JFrame with information about the project
+     *
+     * @return JFrame instance with information about the project
+     */
+    private JFrame aboutWindow() {
+        JFrame about = new JFrame("About this project");
+        JLabel description = new JLabel();
+        JButton projectLink = new JButton();
+        try {
+            final URI projectURI = new URI("https://github.com/walshie4/"
+                    +"backup-RES-Settings");
+            projectLink.setText(projectURI.toString());
+            projectLink.setBorderPainted(false);
+            projectLink.setToolTipText(projectURI.toString());
+            projectLink.addActionListener(new ActionListener() {
+                public void actionPerformed(ActionEvent e) {
+                    if(Desktop.isDesktopSupported()) {
+                        try {
+                            Desktop.getDesktop().browse(projectURI);
+                        }
+                        catch(IOException error) {
+                            System.err.println(error.getMessage());
+                        }
+                    }
+                    else {
+                        System.err.println("Desktop is not supported! Link cannot be"
+                            + "opened.");
+                    }
+                }
+            });
+            Container pane = about.getContentPane();
+            pane.add(projectLink);
+        }
+        catch (URISyntaxException syntax) {
+            System.err.println(syntax.getMessage());
+        }
+        about.setVisible(true);
+        return about;
     }
     /**
      * Main - Runs the program
