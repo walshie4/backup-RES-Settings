@@ -82,7 +82,12 @@ public class RESBackupGUI implements Observer {
         });
         detectRES.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                mod.detectRES();
+                try {
+                    mod.detectRES();
+                }
+                catch (UnsupportedOperationException exception) {
+                    System.err.println(exception.getMessage());
+                }
             }
         });
         detectOS.addActionListener(new ActionListener() {
