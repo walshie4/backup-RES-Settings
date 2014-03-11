@@ -216,21 +216,33 @@ public class RESBackup extends Observable {
      * findSafariOSX - 
      *     Finds the Safrai RES settings file, and adds it to the local RES ArrayList
      */
-    private void findSafariOSX() throws UnsupportedOperationException {
+    private void findSafariOSX() {
         String path = "~/Library/Safari/LocalStorage/";
-        path.replace("~", this.HOME);
-        File settings = findSafariFile();
+        File settings = findSafariFile(path.replace("~", this.HOME));
+        if (settings.exists())
+            this.RES.add(settings);
     }
     /**
      * findSafariFile -
      *     Finds the Safari RES settings file based off the start of the file name
      *
+     * @param path - String representing the path to where the RES settings file
+     *               should be able to be found
+     *
      * @return File object pointing to the RES settings file
+     *
+     * @exception UnsupportedOperationException - thrown if the Safari RES settings
+     *                                            file cannot be found
      */
-    private File findSafariFile() {
-        //find safari file
-        //uses SAFARI_FILE_HEAD variable
-        return new File(""); //place holder
+    private File findSafariFile(String path) throws UnsupportedOperationException {
+        File folder = new File(path);
+        File[] possibles = folder.listFiles();
+        for (File possible : possibles) {
+            if (possible.getName().startsWith(this.SAFARI_FILE_HEAD))
+                return possible;
+        }
+        throw new UnsupportedOperationException("Safari RES settings file could not"
+                + " be found. :(");
     }
     /**
      * findFirefoxProfile -
