@@ -316,9 +316,10 @@ public class RESBackup extends Observable {
      */
     private Hashtable<String, File> getProfiles(File profileInfo) {
         Hashtable<String, File> profiles = new Hashtable<String, File>();
+        BufferedReader reader = null;
         try {
             //read each line in 'profiles.ini'
-            BufferedReader reader = new BufferedReader(new FileReader(profileInfo));
+            reader = new BufferedReader(new FileReader(profileInfo));
             String line = null;
             String name = ""; //will hold name of section in 'profiles.ini' file
             boolean building = false; //true when still reading info on one section
@@ -372,6 +373,16 @@ public class RESBackup extends Observable {
         }
         catch(IOException e) {
             System.err.format("IOException: %s%n", e);
+        }
+        finally {
+            if (reader != null) {
+                try {
+                    reader.close();
+                }
+                catch (IOException e) {
+                    System.err.println(e.getMessage());
+                }
+            }
         }
         return profiles;
     }
