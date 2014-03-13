@@ -137,21 +137,18 @@ public class RESBackup extends Observable {
                 throw new UnsupportedOperationException("The APPDATA variable is "
                         + "null, because of this finding installs on WIN 7/8 is "
                         + "impossible.");
-            else {
-                File chrome78 = new File(this.APPDATA + this.CHROME_PATH_WIN78);
-                if (chrome78.exists())
-                    this.RES.add(chrome78);
-                File chromium78 = new File(this.APPDATA + this.CHROMIUM_PATH_WIN78);
-                if (chromium78.exists())
-                    this.RES.add(chromium78);
-                findFirefoxProfile();
-            }
+            File chrome78 = new File(this.APPDATA + this.CHROME_PATH_WIN78);
+            if (chrome78.exists())
+                this.RES.add(chrome78);
+            File chromium78 = new File(this.APPDATA + this.CHROMIUM_PATH_WIN78);
+            if (chromium78.exists())
+                this.RES.add(chromium78);
+            findFirefoxProfile();
             if (this.HOME == null)
                 throw new UnsupportedOperationException("The user home directory "
                         + "system property is null, beacuse of this finding Opera "
                         + "on windows is impossible.");
-            else
-                findOperaWindows();
+            findOperaWindows();
             break;
         case "Windows XP":
             if (this.HOME == null)
@@ -171,18 +168,16 @@ public class RESBackup extends Observable {
                 throw new UnsupportedOperationException("The HOME variable is null, "
                         + "because of this finding installs on MAC OS X is "
                         + "impossible.");
-            else {
-                String chrome = this.CHROME_PATH_OSX.replace("~", this.HOME);
-                File chromeOSX = new File(chrome);
-                if (chromeOSX.exists())
-                    this.RES.add(chromeOSX);
-                String chromium = this.CHROMIUM_PATH_OSX.replace("~", this.HOME);
-                File chromiumOSX = new File(chromium);
-                if (chromiumOSX.exists())
-                    this.RES.add(chromiumOSX);
-                findFirefoxProfile();
-                findSafariOSX();
-            }
+            String chromePathOSX = this.CHROME_PATH_OSX.replace("~", this.HOME);
+            File chromeOSX = new File(chromePathOSX);
+            if (chromeOSX.exists())
+                this.RES.add(chromeOSX);
+            String chromium = this.CHROMIUM_PATH_OSX.replace("~", this.HOME);
+            File chromiumOSX = new File(chromium);
+            if (chromiumOSX.exists())
+                this.RES.add(chromiumOSX);
+            findFirefoxProfile();
+            findSafariOSX();
             break;
         case "Linux":
         case "linux":
@@ -190,13 +185,11 @@ public class RESBackup extends Observable {
                 throw new UnsupportedOperationException("User's home directory "
                         + "cannot be found, because of this it is impossible to "
                         + "find chrome's RES file");
-            else {
-                String chrome = this.CHROME_PATH_LINUX.replace("~", this.HOME);
-                File chromeLinux = new File(chrome);
-                if (chromeLinux.exists())
-                    this.RES.add(chromeLinux);
-                findFirefoxProfile();
-            }
+            String chromePathLinux = this.CHROME_PATH_LINUX.replace("~", this.HOME);
+            File chromeLinux = new File(chromePathLinux);
+            if (chromeLinux.exists())
+                this.RES.add(chromeLinux);
+            findFirefoxProfile();
             break;
         default:
             throw new UnsupportedOperationException("Your OS isn't supported! Please report"
