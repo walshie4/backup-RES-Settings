@@ -399,6 +399,7 @@ public class RESBackup extends Observable {
     public static void main(String[] args) {
         RESBackup backup = new RESBackup();
         backup.detectRES();
-        System.out.println(backup.getFoundFiles());
+        for (File found : backup.getFoundFiles())
+            System.out.println(found.getAbsolutePath());
     }
 }
