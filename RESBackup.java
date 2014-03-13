@@ -134,6 +134,8 @@ public class RESBackup extends Observable {
         detectOperatingSystem();
         switch(this.os) {
         case "Windows 7":
+        case "windows 7":
+        case "windows 8":
         case "Windows 8":
             if (this.APPDATA == null && this.LOCALAPPDATA == null)
                 throw new UnsupportedOperationException("The APPDATA and "
