@@ -23,6 +23,7 @@ import java.util.Observable;
 
 public class RESBackup extends Observable {
     private String APPDATA; /*Holds path to users %APPDATA% dir*/
+    private String LOCALAPPDATA; /*Holds path to users %LOCALAPPDATA% dir*/
     private String HOME; /*Holds path to users home dir*/
     private final String CHROME_PATH_WIN78 = "/Local/Google/Chrome/"
         + "User Data/Default/Local Storage/chrome-extension_"
@@ -60,6 +61,7 @@ public class RESBackup extends Observable {
     public RESBackup() {
         this.RES = new ArrayList<File>();
         this.APPDATA = System.getenv("APPDATA");
+        this.LOCALAPPDATA = System.getenv("LOCALAPPDATA");
         this.HOME = System.getenv("user.home");
         if (this.HOME == null) //if null
             this.HOME = System.getProperty("user.home"); //use backup way
@@ -133,14 +135,19 @@ public class RESBackup extends Observable {
         switch(this.os) {
         case "Windows 7":
         case "Windows 8":
-            if (this.APPDATA == null)
-                throw new UnsupportedOperationException("The APPDATA variable is "
-                        + "null, because of this finding installs on WIN 7/8 is "
-                        + "impossible.");
-            File chrome78 = new File(this.APPDATA + this.CHROME_PATH_WIN78);
+            if (this.APPDATA == null && this.LOCALAPPDATA == null)
+                throw new UnsupportedOperationException("The APPDATA and "
+                        + "LOCALAPPDATA variable is null, because of this"
+                        + "finding installs on WIN 7/8 is impossible.");
+            String appDataPath;
+            if (this.APPDATA != null) 
+                appDataPath = this.APPDATA;
+            else 
+                appDataPath = this.LOCALAPPDATA;
+            File chrome78 = new File(appDataPath + this.CHROME_PATH_WIN78);
             if (chrome78.exists())
                 this.RES.add(chrome78);
-            File chromium78 = new File(this.APPDATA + this.CHROMIUM_PATH_WIN78);
+            File chromium78 = new File(appDataPath + this.CHROMIUM_PATH_WIN78);
             if (chromium78.exists())
                 this.RES.add(chromium78);
             findFirefoxProfile();
@@ -155,12 +162,10 @@ public class RESBackup extends Observable {
                 throw new UnsupportedOperationException("The HOME variable is null, "
                         + "because of this finding installs on WIN XP is "
                         + "impossible.");
-            else {
-                File chromeXP = new File(this.HOME + this.CHROME_PATH_WINXP);
-                if (chromeXP.exists())
-                    this.RES.add(chromeXP);
-                findOperaWindows();
-            }
+            File chromeXP = new File(this.HOME + this.CHROME_PATH_WINXP);
+            if (chromeXP.exists())
+                this.RES.add(chromeXP);
+            findOperaWindows();
             break;
         case "Mac OS X":
         case "mac os x":
