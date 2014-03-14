@@ -119,7 +119,7 @@ public class RESBackup extends Observable {
         notifyObservers();
     }
     /**
-     * detectRES -
+     * detectRES - 
      *     Looks for installed versions of RES on the
      *     local machine.
      *
@@ -132,27 +132,24 @@ public class RESBackup extends Observable {
     public void detectRES() throws UnsupportedOperationException{
         this.RES = new ArrayList<File>(); //reset the list contents
         detectOperatingSystem();
-        if (this.os.equals("windows 7") || this.os.equals("windows 8")) {
+        switch(this.os) {
+        case "windows 7":
+        case "windows 8":
+        case "windows 8.1":
             if (this.APPDATA == null && this.LOCALAPPDATA == null)
                 throw new UnsupportedOperationException("The APPDATA and "
                         + "LOCALAPPDATA variable is null, because of this"
                         + "finding installs on WIN 7/8 is impossible.");
-            String appDataPath;
-            appDataPath = this.LOCALAPPDATA == null ? this.APPDATA : this.LOCALAPPDATA;
-            File chrome78 = new File(appDataPath + this.CHROME_PATH_WIN78);
-            if (chrome78.exists())
-                this.RES.add(chrome78);
-            File chromium78 = new File(appDataPath + this.CHROMIUM_PATH_WIN78);
-            if (chromium78.exists())
-                this.RES.add(chromium78);
-            findFirefoxProfile();
-            if (this.HOME == null)
-                throw new UnsupportedOperationException("The user home directory "
-                        + "system property is null, because of this finding Opera "
-                        + "on windows is impossible.");
-            findOperaWindows();
-
-        } else if (this.os.equals("windows xp")) {
+            if (this.APPDATA != null && this.LOCALAPPDATA != null) {
+                detectOnWindows(this.APPDATA);
+                detectOnWindows(this.LOCALAPPDATA);
+            }
+            else if (this.APPDATA != null) 
+                detectOnWindows(this.APPDATA);
+            else 
+                detectOnWindows(this.LOCALAPPDATA);
+            break;
+        case "windows xp":
             if (this.HOME == null)
                 throw new UnsupportedOperationException("The HOME variable is null, "
                         + "because of this finding installs on WIN XP is "
@@ -161,8 +158,8 @@ public class RESBackup extends Observable {
             if (chromeXP.exists())
                 this.RES.add(chromeXP);
             findOperaWindows();
-
-        } else if (this.os.equals("mac os x")) {
+            break;
+        case "mac os x":
             if (this.HOME == null)
                 throw new UnsupportedOperationException("The HOME variable is null, "
                         + "because of this finding installs on MAC OS X is "
@@ -177,8 +174,8 @@ public class RESBackup extends Observable {
                 this.RES.add(chromiumOSX);
             findFirefoxProfile();
             findSafariOSX();
-
-        } else if (this.os.equals("linux")) {
+            break;
+        case "linux":
             if (this.HOME == null)
                 throw new UnsupportedOperationException("User's home directory "
                         + "cannot be found, because of this it is impossible to "
@@ -188,13 +185,35 @@ public class RESBackup extends Observable {
             if (chromeLinux.exists())
                 this.RES.add(chromeLinux);
             findFirefoxProfile();
-
-        } else {
+            break;
+        default:
             throw new UnsupportedOperationException("Your OS isn't supported! Please report"
                     + " this issue on the github project page. Thanks! :)");
         }
         setChanged();
         notifyObservers();
+    }
+    /**
+     * detectOnWindows - 
+     *     Finds windows RES installs based on appDataPath specified
+     *
+     * @param appDataPath - appDataPath to look inside of
+     *
+     * @exception UnsupportedOperationException - thrown if user home property is null
+     */
+    private void detectOnWindows(String appDataPath) {
+        File chrome78 = new File(appDataPath + this.CHROME_PATH_WIN78);
+        if (chrome78.exists())
+            this.RES.add(chrome78);
+        File chromium78 = new File(appDataPath + this.CHROMIUM_PATH_WIN78);
+        if (chromium78.exists())
+            this.RES.add(chromium78);
+        findFirefoxProfile();
+        if (this.HOME == null)
+        throw new UnsupportedOperationException("The user home directory "
+                    + "system property is null, beacuse of this finding Opera "
+                    + "on windows is impossible.");
+        findOperaWindows();
     }
     /**
      * findOperaWindows -
@@ -204,7 +223,7 @@ public class RESBackup extends Observable {
         //find windows opera file
     }
     /**
-     * findSafariOSX -
+     * findSafariOSX - 
      *     Finds the Safrai RES settings file, and adds it to the local RES ArrayList
      */
     private void findSafariOSX() {
@@ -247,18 +266,21 @@ public class RESBackup extends Observable {
      *                                            Firefox profiles location
      */
     private void findFirefoxProfile() throws UnsupportedOperationException {
-        if (this.os.equals("windows 7") || this.os.equals("windows 8")) {
+        switch(this.os) {
+        case "Windows 7":
+        case "Windows 8":
             File profileWin78 = new File(this.APPDATA + this.FF_PROFILE_WIN78);
-            if (profileWin78.exists())
+            if (profileWin78.exists()) 
                 findRESFile(profileWin78);
-
-        } else if (this.os.equals("windows xp")) {
+            break;
+        case "Windows XP":
             throw new UnsupportedOperationException("The Firefox profile folder"
                     + " location is not listed on the RES backup page. If you are "
                     + "encountering this error and know the location of the "
                     + "Firefox profile folder on Win. XP please submit it, "
                     + "along with an issue report to have this fixed. Thanks!");
-        } else if (this.os.equals("mac os x")) {
+        case "Mac OS X":
+        case "mac os x":
             String path = this.FF_PROFILE_MAC.replace("~", this.HOME);
             File profileMac = new File(path + "profiles.ini");
             if (profileMac.exists())
@@ -267,25 +289,27 @@ public class RESBackup extends Observable {
             File profileMacAlt = new File(altPath + "profiles.ini");
             if (profileMacAlt.exists())
                 findRESFile(new File(altPath));
-
-        } else if (this.os.equals("linux")) {
+            break;
+        case "Linux":
+        case "linux":
             String firefox = FF_PROFILE_LINUX.replace("~", this.HOME);
             File profileLinux = new File(firefox);
             if (profileLinux.exists())
                 findRESFile(profileLinux);
-
-        } else {//this should never run, unless called out of order or switch does not
+            break;
+        default:
+            //this should never run, unless called out of order or switch does not
             //match switch in detectRES()
         }
     }
     /**
-     * findRESFile -
-     * looks through the passed directory for the RES settings file
-     * and adds it to the RES arraylist if the settings file found exists
+     * findRESFile - 
+     *      looks through the passed directory for the RES settings file
+     *      and adds it to the RES arraylist if the settings file found exists
      *
      * @param profileDir - File object which points to the directory which
-     *                   houses the Firefox Profile Folder on the local
-     *                   machine.
+     *                     houses the Firefox Profile Folder on the local
+     *                     machine.
      */
     private void findRESFile(File profileDir) {
         //build a hashtable of <String names, File profile> from the profiles.ini file
@@ -295,7 +319,7 @@ public class RESBackup extends Observable {
         while(it.hasNext()) {
             //Create a file object based off the object corresponding to the current key
             //as well as the common file path suffix for Firefox settings files
-            File settings = new File(profiles.get(it.next()), FF_PROFILE_SUFFIX);
+            File settings = new File(profiles.get(it.next()), FF_PROFILE_SUFFIX); 
             if (settings.exists())
                 this.RES.add(settings);
         }
@@ -322,14 +346,14 @@ public class RESBackup extends Observable {
             String name = ""; //will hold name of section in 'profiles.ini' file
             boolean building = false; //true when still reading info on one section
             boolean relativePath = false; //true if path for current profile being
-            // built is relative to dir containing the profiles.ini file
+                    // built is relative to dir containing the profiles.ini file
             File profile = null; //used to hold the profile file during building
             while ((line = reader.readLine()) != null) {
                 if (building) { //building a Hashtable entry
                     if (line.equals("")) { //empty (signals building is over)
                         profiles.put(name, profile);
                         building = false; //reset variables used on a loop level
-                        name = "";
+                        name = ""; 
                         profile = null;
                     }
                     else if (line.length() >= 5 && line.substring(0,5).equals("Name="))
