@@ -25,10 +25,10 @@ public class RESBackup extends Observable {
     private String APPDATA; /*Holds path to users %APPDATA% dir*/
     private String LOCALAPPDATA; /*Holds path to users %LOCALAPPDATA% dir*/
     private String HOME; /*Holds path to users home dir*/
-    private final String CHROME_PATH_WIN78 = "/Local/Google/Chrome/"
+    private final String CHROME_PATH_WIN78 = "/Google/Chrome/"
             + "User Data/Default/Local Storage/chrome-extension_"
             + "kbmfpngjjgdllneeigpgjifpgocmfgmb_0.localstorage";
-    private final String CHROMIUM_PATH_WIN78 = "/Local/Chromium/"
+    private final String CHROMIUM_PATH_WIN78 = "/Chromium/"
             + "User Data/Default/Local Storage/chrome-extension_"
             + "kbmfpngjjgdllneeigpgjifpgocmfgmb_0.localstorage";
     private final String CHROME_PATH_WINXP = "Local Settings/Application Data/Google"
@@ -43,7 +43,7 @@ public class RESBackup extends Observable {
     private final String FF_PROFILE_MAC = "~/Library/Mozilla/Firefox/Profiles/";
     private final String FF_PROFILE_MAC_ALT = "~/Library/Application Support/"
             + "Firefox/";
-    private final String FF_PROFILE_WIN78 = "/Mozilla/Firefox/Profiles/";
+    private final String FF_PROFILE_WIN78 = "/Mozilla/Firefox/";
     private final String FF_PROFILE_LINUX = "~/.mozilla/firefox/";
     private final String FF_PROFILE_SUFFIX = "/jetpack/jid1-xUfzOsOFlzSOXg@jetpack"
             + "/simple-storage/store.json";
