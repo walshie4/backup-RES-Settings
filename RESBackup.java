@@ -133,10 +133,9 @@ public class RESBackup extends Observable {
         this.RES = new ArrayList<File>(); //reset the list contents
         detectOperatingSystem();
         switch(this.os) {
-        case "Windows 7":
         case "windows 7":
         case "windows 8":
-        case "Windows 8":
+        case "windows 8.1":
             if (this.APPDATA == null && this.LOCALAPPDATA == null)
                 throw new UnsupportedOperationException("The APPDATA and "
                         + "LOCALAPPDATA variable is null, because of this"
@@ -159,7 +158,7 @@ public class RESBackup extends Observable {
                         + "on windows is impossible.");
             findOperaWindows();
             break;
-        case "Windows XP":
+        case "windows xp":
             if (this.HOME == null)
                 throw new UnsupportedOperationException("The HOME variable is null, "
                         + "because of this finding installs on WIN XP is "
@@ -169,7 +168,6 @@ public class RESBackup extends Observable {
                 this.RES.add(chromeXP);
             findOperaWindows();
             break;
-        case "Mac OS X":
         case "mac os x":
             if (this.HOME == null)
                 throw new UnsupportedOperationException("The HOME variable is null, "
@@ -186,7 +184,6 @@ public class RESBackup extends Observable {
             findFirefoxProfile();
             findSafariOSX();
             break;
-        case "Linux":
         case "linux":
             if (this.HOME == null)
                 throw new UnsupportedOperationException("User's home directory "
