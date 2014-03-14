@@ -26,29 +26,29 @@ public class RESBackup extends Observable {
     private String LOCALAPPDATA; /*Holds path to users %LOCALAPPDATA% dir*/
     private String HOME; /*Holds path to users home dir*/
     private final String CHROME_PATH_WIN78 = "/Local/Google/Chrome/"
-        + "User Data/Default/Local Storage/chrome-extension_"
-        + "kbmfpngjjgdllneeigpgjifpgocmfgmb_0.localstorage";
+            + "User Data/Default/Local Storage/chrome-extension_"
+            + "kbmfpngjjgdllneeigpgjifpgocmfgmb_0.localstorage";
     private final String CHROMIUM_PATH_WIN78 = "/Local/Chromium/"
-        + "User Data/Default/Local Storage/chrome-extension_"
-        + "kbmfpngjjgdllneeigpgjifpgocmfgmb_0.localstorage";
+            + "User Data/Default/Local Storage/chrome-extension_"
+            + "kbmfpngjjgdllneeigpgjifpgocmfgmb_0.localstorage";
     private final String CHROME_PATH_WINXP = "Local Settings/Application Data/Google"
-        + "/Chrome/User Data/Default/Local Storage/chrome-extension_"
-        + "kbmfpngjjgdllneeigpgjifpgocmfgmb_0.localstorage";
+            + "/Chrome/User Data/Default/Local Storage/chrome-extension_"
+            + "kbmfpngjjgdllneeigpgjifpgocmfgmb_0.localstorage";
     private final String CHROME_PATH_OSX = "~/Library/Application Support/Google/"
-        + "Chrome/Default/Local Storage/";
+            + "Chrome/Default/Local Storage/";
     private final String CHROMIUM_PATH_OSX = "~/Library/Application Support/"
-        + "Chromium/Default";
+            + "Chromium/Default";
     private final String CHROME_PATH_LINUX = "~/.config/google-chrome/Default/Local "
-        + "Storage/chrome-extension_kbmfpngjjgdllneeigpgjifpgocmfgmb_0.localstorage";
+            + "Storage/chrome-extension_kbmfpngjjgdllneeigpgjifpgocmfgmb_0.localstorage";
     private final String FF_PROFILE_MAC = "~/Library/Mozilla/Firefox/Profiles/";
     private final String FF_PROFILE_MAC_ALT = "~/Library/Application Support/"
-        + "Firefox/";
+            + "Firefox/";
     private final String FF_PROFILE_WIN78 = "/Mozilla/Firefox/Profiles/";
     private final String FF_PROFILE_LINUX = "~/.mozilla/firefox/";
     private final String FF_PROFILE_SUFFIX = "/jetpack/jid1-xUfzOsOFlzSOXg@jetpack"
-        + "/simple-storage/store.json";
+            + "/simple-storage/store.json";
     private final String SAFARI_FILE_HEAD = "safari-extension_com.honestbleeps."
-        + "redditenhancementsuite-";
+            + "redditenhancementsuite-";
     private String os; /*String representation of the OS*/
     private ArrayList<File> RES; /*Contains File object representations of
                             found RES settings files*/
