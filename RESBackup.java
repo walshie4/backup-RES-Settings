@@ -140,23 +140,14 @@ public class RESBackup extends Observable {
                 throw new UnsupportedOperationException("The APPDATA and "
                         + "LOCALAPPDATA variable is null, because of this"
                         + "finding installs on WIN 7/8 is impossible.");
-            String appDataPath;
-            if (this.APPDATA != null) 
-                appDataPath = this.APPDATA;
+            if (this.APPDATA != null && this.LOCALAPPDATA != null) {
+                detectOnWindows(this.APPDATA);
+                detectOnWindows(this.LOCALAPPDATA);
+            }
+            else if (this.APPDATA != null) 
+                detectOnWindows(this.APPDATA);
             else 
-                appDataPath = this.LOCALAPPDATA;
-            File chrome78 = new File(appDataPath + this.CHROME_PATH_WIN78);
-            if (chrome78.exists())
-                this.RES.add(chrome78);
-            File chromium78 = new File(appDataPath + this.CHROMIUM_PATH_WIN78);
-            if (chromium78.exists())
-                this.RES.add(chromium78);
-            findFirefoxProfile();
-            if (this.HOME == null)
-                throw new UnsupportedOperationException("The user home directory "
-                        + "system property is null, beacuse of this finding Opera "
-                        + "on windows is impossible.");
-            findOperaWindows();
+                detectOnWindows(this.LOCALAPPDATA);
             break;
         case "windows xp":
             if (this.HOME == null)
@@ -201,6 +192,28 @@ public class RESBackup extends Observable {
         }
         setChanged();
         notifyObservers();
+    }
+    /**
+     * detectOnWindows - 
+     *     Finds windows RES installs based on appDataPath specified
+     *
+     * @param appDataPath - appDataPath to look inside of
+     *
+     * @exception UnsupportedOperationException - thrown if user home property is null
+     */
+    private void detectOnWindows(String appDataPath) {
+        File chrome78 = new File(appDataPath + this.CHROME_PATH_WIN78);
+        if (chrome78.exists())
+            this.RES.add(chrome78);
+        File chromium78 = new File(appDataPath + this.CHROMIUM_PATH_WIN78);
+        if (chromium78.exists())
+            this.RES.add(chromium78);
+        findFirefoxProfile();
+        if (this.HOME == null)
+        throw new UnsupportedOperationException("The user home directory "
+                    + "system property is null, beacuse of this finding Opera "
+                    + "on windows is impossible.");
+        findOperaWindows();
     }
     /**
      * findOperaWindows -
