@@ -7,7 +7,8 @@
 #SAFARI="~/Library/Safari/LocalStorage/safari-extension_com.honestbleeps.redditenhancementsuite-<10 char alphanumeric string>_0.localstorage"
 
 #CONFIG
-PATH_TO_BACKUP="/Users/adamwalsh/Documents"
+USER_HOME=$(eval echo ~${SUDO_USER})
+PATH_TO_BACKUP="${USER_HOME}/Documents"
 #END CONFIG
 
 declare -a found=()
@@ -30,9 +31,9 @@ if [[ -f ~/Library/Mozilla/Firefox/Profiles/ohy29rj0.default/jetpack/jid1-xUfzOs
     found+=("Firefox")
     cp ~/Library/Mozilla/Firefox/Profiles/ohy29rj0.default/jetpack/jid1-xUfzOsOFlzSOXg\@jetpack/simple-storage/store.json $backups
 fi
-if [[ -f ~/Library/Application\ Support/Firefox/Profiles/ohy29rj0.default/jetpack/jid1-xUfzOsOFlzSOXg\@jetpack/simple-storage/store.json ]]; then
+if [[ -f ~/Library/Application\ Support/Firefox/Profiles/517bszfu.default/jetpack/jid1-xUfzOsOFlzSOXg@jetpack/simple-storage/store.json ]]; then
     found+=("Firefox (Alternate Location)")
-    cp ~/Library/Application\ Support/Firefox/Profiles/ohy29rj0.default/jetpack/jid1-xUfzOsOFlzSOXg\@jetpack/simple-storage/store.json $backups
+    cp ~/Library/Application\ Support/Firefox/Profiles/517bszfu.default/jetpack/jid1-xUfzOsOFlzSOXg@jetpack/simple-storage/store.json $backups
 fi
 
 for i in "${found[@]}"; do
