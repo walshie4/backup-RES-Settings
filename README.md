@@ -5,10 +5,13 @@ After a brief break in development I am back to active work on this project, and
 on the amount of free time I have to work on it.
 
 ###The first test relase is out!
-    If you would like to help in testing please download the most recent relase and make sure that all your RES browser installs are detected.  If any are not please submit an issue and include your OS, browser name, and if you know it the location the browser stores the RES settings file at.  Thanks!
+If you would like to help in testing please download the most recent relase and make sure that all your RES browser installs are detected.  
+If any are not please submit an issue and include your OS, browser name, and if you know it the location the browser stores the RES settings file at.  Thanks!
 
 ####IMPORTANT!
-    I have started working on re-writing the idea behind the backupRESSetting script into a cross-platform Java application. At first I will be implementing the browsers listed [here](http://www.reddit.com/r/Enhancement/wiki/backing_up_res_settings). However, eventually I will be willing to add support for any browser or OS that has not been covered. This readme will be updated more as the project develops.
+I have started working on re-writing the idea behind the backupRESSetting script into a cross-platform Java application. At first I will be implementing the 
+browsers listed [here](http://www.reddit.com/r/Enhancement/wiki/backing_up_res_settings). However, eventually I will be willing to add support for any browser 
+or OS that has not been covered. This readme will be updated more as the project develops.
 
 #####What: 
 *   The backupRESSettings.sh script will search for RES (Reddit Ehancement Suite) installs on your computer
