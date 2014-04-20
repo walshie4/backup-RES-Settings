@@ -26,4 +26,5 @@ version.
 the file is found it is added to a backup file which is stored at the location you specify.
 
 #####Where:
-*   Check the releases for the latest working version, or download the latest commit.
+*   Check the releases for the latest working version, or download the latest commit (but don't expect it to be bug-less if you do).
+
