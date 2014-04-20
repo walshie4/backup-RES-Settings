@@ -205,9 +205,21 @@ public class RESBackup extends Observable {
         File chrome78 = new File(appDataPath + this.CHROME_PATH_WIN78);
         if (chrome78.exists())
             this.RES.add(chrome78);
+        else {//try looking in AppData\Local\Google\Chrome
+            String parent = appDataPath.replace("Roaming", "Local");
+            File altChrome78 = new File(parent + this.CHROME_PATH_WIN78);
+            if (altChrome78.exists())
+                this.RES.add(altChrome78);
+        }
         File chromium78 = new File(appDataPath + this.CHROMIUM_PATH_WIN78);
         if (chromium78.exists())
             this.RES.add(chromium78);
+        else {
+            String parent = appDataPath.replace("Roaming", "Local");
+            File altChromium78 = new File(parent + this.CHROMIUM_PATH_WIN78);
+            if (altChromium78.exists())
+                this.RES.add(altChromium78);
+        }
         findFirefoxProfile();
         if (this.HOME == null)
         throw new UnsupportedOperationException("The user home directory "
