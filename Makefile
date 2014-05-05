@@ -7,7 +7,7 @@ RESBackup.class:
 RESBackupGUI.class:
 	javac RESBackupGUI.java
 
-test: RESBackup.class RESBackupGUI.class
+test: clean RESBackup.class RESBackupGUI.class
 	java RESBackupGUI
 
 clean:
