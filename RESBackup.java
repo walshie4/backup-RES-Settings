@@ -20,6 +20,7 @@ import java.util.Hashtable;
 import java.util.Iterator;
 import java.util.Set;
 import java.util.Observable;
+import javax.swing.JOptionPane;
 
 public class RESBackup extends Observable {
     private String APPDATA; /*Holds path to users %APPDATA% dir*/
@@ -49,6 +50,7 @@ public class RESBackup extends Observable {
             + "/simple-storage/store.json";
     private final String SAFARI_FILE_HEAD = "safari-extension_com.honestbleeps."
             + "redditenhancementsuite-";
+    private final String BACKUP_DIR = "~/RES-Backups";
     private String os; /*String representation of the OS*/
     private ArrayList<File> RES; /*Contains File object representations of
                             found RES settings files*/
@@ -73,10 +75,41 @@ public class RESBackup extends Observable {
      * @param filesToBackup - an arraylist of file objects pointing to
      *                        found RES settings files that the user has
      *                        elected to include in the backup.
+     *
+     * @exception Exception - Any exception thrown during the backup process
+     *                        Most likely cause is that the backup dir could
+     *                        not be created.
      */
-    public void makeBackup(ArrayList<File> filesToBackup) {
-        //for(File current : filesToBackup) {//for each file
-            //TODO
+    public void makeBackup(ArrayList<File> filesToBackup) throws Exception {
+        String path = BACKUP_DIR.replace("~", this.HOME);
+        File backupDir = new File(path);
+        if(backupDir.exists() && backupDir.isDirectory()) {//dir exists
+            if(backupDir.list().length != 0) {//not empty
+                int resp = JOptionPane.showConfirmDialog(null, "The backup directory " +
+                        "is not empty. Would you like to delete its contents? (If not " +
+                        "sure press no and look in the dir @ "
+                        + backupDir.getAbsolutePath(), "Warning",
+                        JOptionPane.YES_NO_OPTION);
+                if (resp == JOptionPane.YES_OPTION)//user selected yes
+                    for (String filePath : backupDir.list()) {
+                        File file = new File(filePath);
+                        if (!file.delete())//if file did not delete
+                            throw new Exception("File " + file.getAbsolutePath() +
+                                    " not be deleted.");
+                    }
+                else //User said no
+                    throw new Exception("Ouput directory is not empty. New backup could " +
+                            "not be made");
+            }
+        }//dir is now empty
+        else if(!backupDir.mkdir())//backup dir could not be created
+            throw new Exception("Backup dir could not be created! It may already exist"
+                    + "as a file. Backup FAILED! Please report this.");
+        for(File current : filesToBackup) {//for each file found
+            File output = new File(backupDir.getAbsolutePath() + '/' + current.getName());
+            System.out.println(output.getAbsolutePath());
+//            Files.copy(current.toPath(), output
+        }
     }
     /**
      * getOS - returns the internal string holding the detected OS value

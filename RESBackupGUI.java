@@ -67,6 +67,7 @@ public class RESBackupGUI implements Observer {
         JButton detectRES = new JButton("Detect RES installs");
         JButton reset = new JButton("Reset");
         JButton about = new JButton("About");
+        JButton backup = new JButton("Make Backup");
         JPanel buttons = new JPanel(); //JPanel to hold buttons (at the bottom)
         buttons.setLayout(new FlowLayout(FlowLayout.RIGHT, 4, 4));
         final RESBackup mod = this.model; /**Final model to be used in listeners*/
@@ -95,10 +96,21 @@ public class RESBackupGUI implements Observer {
                 mod.detectOperatingSystem();
             }
         });
+        backup.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                try{
+                    mod.makeBackup(mod.getFoundFiles());
+                }
+                catch (Exception exception) {
+                    System.err.println(exception.getMessage());
+                }
+            }
+        });
         buttons.add(about);//add in order from right to left
         buttons.add(reset);
         buttons.add(detectRES);
         buttons.add(detectOS);
+        buttons.add(backup);
         win.setPreferredSize(new Dimension(600,500));
         pane.add(os, BorderLayout.NORTH);
         pane.add(buttons, BorderLayout.SOUTH);
