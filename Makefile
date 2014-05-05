@@ -12,3 +12,7 @@ test: clean RESBackup.class RESBackupGUI.class
 
 clean:
 	rm -f *.class
+
+push:
+	git push origin master
+
