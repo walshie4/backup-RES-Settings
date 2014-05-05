@@ -99,7 +99,7 @@ public class RESBackupGUI implements Observer {
         backup.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 try{
-                    mod.makeBackup(mod.getFoundFiles());
+                    mod.makeBackup(getSelected());
                 }
                 catch (Exception exception) {
                     System.err.println(exception.getMessage());
@@ -133,6 +133,19 @@ public class RESBackupGUI implements Observer {
             row += 1;
         }
         this.table.setModel(this.tableModel);
+    }
+    /**
+     * getSelected - gets the index of which File's have been selected via checkbox
+     *
+     * @return ArrayList of ints representing indexes of selected files
+     */
+    private ArrayList<Integer> getSelected() {
+        ArrayList<Integer> result = new ArrayList<Integer>();
+        for(int i = 0; i < tableModel.getRowCount(); i++) {
+            if(this.tableModel.getValueAt(i, 0) == true)//if selected
+                result.add(i);
+        }
+        return result;
     }
     /**
      * update - Updates UI components which have had their data

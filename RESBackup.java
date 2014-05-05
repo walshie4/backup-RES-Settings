@@ -21,6 +21,8 @@ import java.util.Iterator;
 import java.util.Set;
 import java.util.Observable;
 import javax.swing.JOptionPane;
+import java.nio.file.Files;
+import java.nio.file.StandardCopyOption;
 
 public class RESBackup extends Observable {
     private String APPDATA; /*Holds path to users %APPDATA% dir*/
@@ -70,45 +72,46 @@ public class RESBackup extends Observable {
     }
     /**
      * makeBackup -
-     *     Makes a backup of the files passed
+     *     Makes a backup of the files checked for backup
      *
-     * @param filesToBackup - an arraylist of file objects pointing to
-     *                        found RES settings files that the user has
-     *                        elected to include in the backup.
+     * @param indices - Indices of values to be backed-up
      *
      * @exception Exception - Any exception thrown during the backup process
      *                        Most likely cause is that the backup dir could
      *                        not be created.
      */
-    public void makeBackup(ArrayList<File> filesToBackup) throws Exception {
+    public void makeBackup(ArrayList<Integer> indices) throws Exception {
+        ArrayList<File> filesToBackup = this.RES;
         String path = BACKUP_DIR.replace("~", this.HOME);
         File backupDir = new File(path);
+        boolean exists = false;//true if the dir exists
         if(backupDir.exists() && backupDir.isDirectory()) {//dir exists
-            if(backupDir.list().length != 0) {//not empty
+            exists = true;
+            if(backupDir.list().length > 0) {//not empty
                 int resp = JOptionPane.showConfirmDialog(null, "The backup directory " +
-                        "is not empty. Would you like to delete its contents? (If not " +
+                        "is not empty. Would you like to rename this dir? (If not " +
                         "sure press no and look in the dir @ "
                         + backupDir.getAbsolutePath(), "Warning",
                         JOptionPane.YES_NO_OPTION);
-                if (resp == JOptionPane.YES_OPTION)//user selected yes
-                    for (String filePath : backupDir.list()) {
-                        File file = new File(filePath);
-                        if (!file.delete())//if file did not delete
-                            throw new Exception("File " + file.getAbsolutePath() +
-                                    " not be deleted.");
-                    }
-                else //User said no
+                if (resp == JOptionPane.YES_OPTION) {//user selected yes
+                    backupDir.renameTo(new File(this.HOME + "/RES-Backups-OLD"));//TODO change this behavior
+                    exists = false;
+                }
+                else//User said no
                     throw new Exception("Ouput directory is not empty. New backup could " +
                             "not be made");
             }
         }//dir is now empty
-        else if(!backupDir.mkdir())//backup dir could not be created
+        if(!backupDir.mkdir() && !exists)//backup dir could not be created and doesnt exist
             throw new Exception("Backup dir could not be created! It may already exist"
                     + "as a file. Backup FAILED! Please report this.");
-        for(File current : filesToBackup) {//for each file found
-            File output = new File(backupDir.getAbsolutePath() + '/' + current.getName());
-            System.out.println(output.getAbsolutePath());
-//            Files.copy(current.toPath(), output
+        for(int i = 0; i < filesToBackup.size(); i++) {//for each file found
+            File current = filesToBackup.get(i);
+            if(indices.contains(new Integer(i))) {//checkbox checked
+                System.out.println("Backing up " + current.getAbsolutePath());
+                File output = new File(backupDir.getAbsolutePath() + '/' + current.getName() + i);//TODO fix duplicate issues
+                Files.copy(current.toPath(), output.toPath(), StandardCopyOption.COPY_ATTRIBUTES);
+            }
         }
     }
     /**
