@@ -35,9 +35,9 @@ public class RESBackup extends Observable {
             + "/Chrome/User Data/Default/Local Storage/chrome-extension_"
             + "kbmfpngjjgdllneeigpgjifpgocmfgmb_0.localstorage";
     private final String CHROME_PATH_OSX = "~/Library/Application Support/Google/"
-            + "Chrome/Default/Local Storage/";
+            + "Chrome/Default/Local Storage/chrome-extension_kbmfpngjjgdllneeigpgjifpgocmfgmb_0.localstorage";
     private final String CHROMIUM_PATH_OSX = "~/Library/Application Support/"
-            + "Chromium/Default";
+            + "Chromium/Default/Local Storage/chrome-extension_kbmfpngjjgdllneeigpgjifpgocmfgmb_0.localstorage";
     private final String CHROME_PATH_LINUX = "~/.config/google-chrome/Default/Local "
             + "Storage/chrome-extension_kbmfpngjjgdllneeigpgjifpgocmfgmb_0.localstorage";
     private final String FF_PROFILE_MAC = "~/Library/Mozilla/Firefox/Profiles/";
@@ -75,7 +75,8 @@ public class RESBackup extends Observable {
      *                        elected to include in the backup.
      */
     public void makeBackup(ArrayList<File> filesToBackup) {
-        //
+        //for(File current : filesToBackup) {//for each file
+            //TODO
     }
     /**
      * getOS - returns the internal string holding the detected OS value
@@ -170,7 +171,7 @@ public class RESBackup extends Observable {
                 this.RES.add(chromeOSX);
             String chromium = this.CHROMIUM_PATH_OSX.replace("~", this.HOME);
             File chromiumOSX = new File(chromium);
-            if (chromiumOSX.exists())
+            if (chromiumOSX.exists()) 
                 this.RES.add(chromiumOSX);
             findFirefoxProfile();
             findSafariOSX();
