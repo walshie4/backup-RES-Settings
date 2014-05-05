@@ -1,12 +1,19 @@
 #[RES](http://redditenhancementsuite.com/) Backup Assistant
 
+Backup functionality is available and tested on OS X (soon to be Linux as well), however some features are a bit iffy. Here is a little TODO list that
+will lay them out as well as allow me a list of high priority items that shouldn't be too difficult to fix.
+
+###TODO (as of V0.2.0)
+* Fix behavior when the RES-Backups folder already exists in the users home dir. As of right now you will be prompted to rename it to RES-Backups-OLD.
+
+* Fix duplicate issue for cases when a user has both Chrome and Chromium for example. Both files are named the same, so their index in the list will be added
+to the end of their file name to avoid issues.
+
+* Find out more about the .localstorage-journal file and its purpose (and then if it should be backed-up as well).
+
 ###Note
 I cannot test most of the common issues, as I do not have access to a Windows machine. If you have a Windows machine and would like to assist in testing
 please contact me. Otherwise most development will have to wait until June.
-
-###The first test relase is out!
-If you would like to help in testing please download the most recent relase and make sure that all your RES browser installs are detected.  
-If any are not please submit an issue and include your OS, browser name, and if you know it the location the browser stores the RES settings file at.  Thanks!
 
 ####IMPORTANT!
 I have started working on re-writing the idea behind the backupRESSetting script into a cross-platform Java application. At first I will be implementing the 
