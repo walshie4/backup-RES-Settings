@@ -7,5 +7,8 @@ RESBackup.class:
 RESBackupGUI.class:
 	javac RESBackupGUI.java
 
+test: RESBackup.class RESBackupGUI.class
+	java RESBackupGUI
+
 clean:
 	rm -f *.class
