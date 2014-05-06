@@ -35,8 +35,9 @@ version.
 *   The application works by checking the location of many different locations different browsers use to store your RES settings.  Then if
 the file is found it is added to a backup file which is stored at the location you specify.
 
-* To run it simply download the latest release and double click it. Then click `Detect RES Installs`. Then check the installs you want to make
-a backup of and click `Make Backup`. A copy of the selected config files will be stored in your user's home directory in a folder called RES-Backups.
+* To run it simply download the latest [release](https://github.com/walshie4/backup-RES-Settings/releases) and double click it. 
+Then click `Detect RES Installs`. Then check the installs you want to make a backup of and click `Make Backup`. 
+A copy of the selected config files will be stored in your user's home directory in a folder called RES-Backups.
 
 #####Where:
 *   Check the releases for the latest working version, or download the latest commit (but don't expect it to be bug-less if you do).
