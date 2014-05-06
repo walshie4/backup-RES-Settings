@@ -43,6 +43,8 @@ public class RESBackup extends Observable {
             + "Chromium/Default/Local Storage/chrome-extension_kbmfpngjjgdllneeigpgjifpgocmfgmb_0.localstorage";
     private final String CHROME_PATH_LINUX = "~/.config/google-chrome/Default/Local "
             + "Storage/chrome-extension_kbmfpngjjgdllneeigpgjifpgocmfgmb_0.localstorage";
+    private final String CHROMIUM_PATH_LINUX = "~/.config/chromium/Default/Local "
+            + "Storage/chrome-extension_kbmfpngjjgdllneeigpgjifpgocmfgmb_0.localstorage";
     private final String FF_PROFILE_MAC = "~/Library/Mozilla/Firefox/Profiles/";
     private final String FF_PROFILE_MAC_ALT = "~/Library/Application Support/"
             + "Firefox/";
@@ -221,6 +223,10 @@ public class RESBackup extends Observable {
             File chromeLinux = new File(chromePathLinux);
             if (chromeLinux.exists())
                 this.RES.add(chromeLinux);
+            String chromiumPathLinux = this.CHROMIUM_PATH_LINUX.replace("~", this.HOME);
+            File chromiumLinux = new File(chromiumPathLinux);
+            if (chromiumLinux.exists())
+                this.RES.add(chromiumLinux);
             findFirefoxProfile();
             break;
         default:
