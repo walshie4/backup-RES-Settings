@@ -54,6 +54,8 @@ public class RESBackup extends Observable {
             + "/simple-storage/store.json";
     private final String SAFARI_FILE_HEAD = "safari-extension_com.honestbleeps."
             + "redditenhancementsuite-";
+    private final String OPERA_MAC = "~/Library/Application Support/com.operasoftware.Opera/"
+            + "Local Storage/chrome-extension_gfdcmdcpehpkengmkhkbpifajmbhfgae_0.localstorage";//idk why this is diff for Opera
     private final String BACKUP_DIR = "~/RES-Backups";
     private String os; /*String representation of the OS*/
     private ArrayList<File> RES; /*Contains File object representations of
@@ -211,6 +213,10 @@ public class RESBackup extends Observable {
             File chromiumOSX = new File(chromium);
             if (chromiumOSX.exists()) 
                 this.RES.add(chromiumOSX);
+            String opera = this.OPERA_MAC.replace("~", this.HOME);
+            File operaOSX = new File(opera);
+            if (operaOSX.exists())
+                this.RES.add(operaOSX);
             findFirefoxProfile();
             findSafariOSX();
             break;
