@@ -4,64 +4,95 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="chrome=1">
     <title>Backup-res-settings by walshie4</title>
+
     <link rel="stylesheet" href="stylesheets/styles.css">
     <link rel="stylesheet" href="stylesheets/pygment_trac.css">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
-    <script src="javascripts/respond.js"></script>
-    <!--[if lt IE 9]>
-      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
-    <![endif]-->
-    <!--[if lt IE 8]>
-    <link rel="stylesheet" href="stylesheets/ie.css">
-    <![endif]-->
     <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
-
+    <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
   </head>
   <body>
-      <div id="header">
-        <nav>
-          <li class="fork"><a href="https://github.com/walshie4/backup-RES-Settings">View On GitHub</a></li>
-          <li class="downloads"><a href="https://github.com/walshie4/backup-RES-Settings/zipball/master">ZIP</a></li>
-          <li class="downloads"><a href="https://github.com/walshie4/backup-RES-Settings/tarball/master">TAR</a></li>
-          <li class="title">DOWNLOADS</li>
-        </nav>
-      </div><!-- end header -->
-
     <div class="wrapper">
+      <header>
+        <h1>Backup-res-settings</h1>
+        <p>A simple application to make backups of settings for installs of the Reddit Enhancement Suite on your machine and store them in an archive. As well as restore saved backups, and allow conversion of settings files across browsers.</p>
 
+        <p class="view"><a href="https://github.com/walshie4/backup-RES-Settings">View the Project on GitHub <small>walshie4/backup-RES-Settings</small></a></p>
+
+
+        <ul>
+          <li><a href="https://github.com/walshie4/backup-RES-Settings/zipball/master">Download <strong>ZIP File</strong></a></li>
+          <li><a href="https://github.com/walshie4/backup-RES-Settings/tarball/master">Download <strong>TAR Ball</strong></a></li>
+          <li><a href="https://github.com/walshie4/backup-RES-Settings">View On <strong>GitHub</strong></a></li>
+        </ul>
+      </header>
       <section>
-        <div id="title">
-          <h1>Backup-res-settings</h1>
-          <p>A simple application to make backups of settings for installs of the Reddit Enhancement Suite on your machine and store them in an archive. As well as restore saved backups, and allow conversion of settings files across browsers.</p>
-          <hr>
-          <span class="credits left">Project maintained by <a href="https://github.com/walshie4">walshie4</a></span>
-          <span class="credits right">Hosted on GitHub Pages &mdash; Theme by <a href="https://twitter.com/michigangraham">mattgraham</a></span>
-        </div>
+        <h1>
+<a name="res-backup-assistant" class="anchor" href="#res-backup-assistant"><span class="octicon octicon-link"></span></a><a href="http://redditenhancementsuite.com/">RES</a> Backup Assistant</h1>
 
-        <p><b>backupRESSettings</b></p>
+<p>Backup functionality is available and tested on OS X (soon to be Linux as well), however some features are a bit iffy. Here is a little TODO list that
+will lay them out as well as allow me a list of high priority items that shouldn't be too difficult to fix.</p>
 
-<p><b>The first test relase is out!</b>
-    If you would like to help in testing please download the most recent relase and make sure that all your RES browser installs are detected.  If any are not please submit an issue and include your OS, browser name, and if you know it the location the browser stores the RES settings file at.  Thanks!</p>
+<h3>
+<a name="todo-as-of-v020" class="anchor" href="#todo-as-of-v020"><span class="octicon octicon-link"></span></a>TODO (as of V0.2.0)</h3>
 
-<p><b>IMPORTANT!</b>
-    I have started working on re-writing the idea behind the backupRESSetting script into a cross-platform Java application. At first I will be implementing the browsers listed <a href="http://www.reddit.com/r/Enhancement/wiki/backing_up_res_settings">here</a>. However, eventually I will be willing to add support for any browser or OS that has not been covered. This readme will be updated more as the project develops.</p>
+<ul>
+<li><p>Fix behavior when the RES-Backups folder already exists in the users home dir. As of right now you will be prompted to rename it to RES-Backups-OLD.</p></li>
+<li><p>Fix duplicate issue for cases when a user has both Chrome and Chromium for example. Both files are named the same, so their index in the list will be added
+to the end of their file name to avoid issues.</p></li>
+<li><p>Find out more about the .localstorage-journal file and its purpose (and then if it should be backed-up as well).</p></li>
+</ul><h3>
+<a name="note" class="anchor" href="#note"><span class="octicon octicon-link"></span></a>Note</h3>
 
-<p><b>What:</b> The backupRESSettings.sh script will search for RES (Reddit Ehancement Suite) installs on your computer
-and make a copy of them in an archive at a location you choose.</p>
+<p>I cannot test most of the common issues, as I do not have access to a Windows machine. If you have a Windows machine and would like to assist in testing
+please contact me. Otherwise most development will have to wait until June.</p>
 
-<p><b>Why:</b> Backups are good, and especially right now for firefox users because firefox has been deleting res settings on reset.</p>
+<h4>
+<a name="important" class="anchor" href="#important"><span class="octicon octicon-link"></span></a>IMPORTANT!</h4>
 
-<p><b>Who:</b> This script currently only works for users running Mac OS X. I am currently working on re-writing into a cross-platform
-version.</p>
+<p>I have started working on re-writing the idea behind the backupRESSetting script into a cross-platform Java application. At first I will be implementing the 
+browsers listed <a href="http://www.reddit.com/r/Enhancement/wiki/backing_up_res_settings">here</a>. However, eventually I will be willing to add support for any browser 
+or OS that has not been covered. This readme will be updated more as the project develops.</p>
 
-<p><b>How:</b> The script works by checking the location of many different locations different browsers use to store your RES settings.  Then if
-the file is found it is added to a backup file which is stored at the location you specify.</p>
+<h5>
+<a name="what" class="anchor" href="#what"><span class="octicon octicon-link"></span></a>What:</h5>
 
-<p><b>Where:</b> Check the releases for the latest working version, or download the latest commit.</p>
+<ul>
+<li>  The application searches for RES (Reddit Ehancement Suite) installs on your computer
+and make a copy of them in a folder in your user's home directory.</li>
+</ul><h5>
+<a name="why" class="anchor" href="#why"><span class="octicon octicon-link"></span></a>Why:</h5>
+
+<ul>
+<li>  Backups are good, and especially right now for firefox users because firefox has been deleting res settings on reset.</li>
+</ul><h5>
+<a name="who" class="anchor" href="#who"><span class="octicon octicon-link"></span></a>Who:</h5>
+
+<ul>
+<li>  This script currently only works for users running Mac OS X. I am currently working on re-writing into a cross-platform
+version.</li>
+</ul><h5>
+<a name="how" class="anchor" href="#how"><span class="octicon octicon-link"></span></a>How:</h5>
+
+<ul>
+<li><p>The application works by checking the location of many different locations different browsers use to store your RES settings.  Then if
+the file is found it is added to a backup file which is stored at the location you specify.</p></li>
+<li><p>To run it simply download the latest release and double click it. Then click <code>Detect RES Installs</code>. Then check the installs you want to make
+a backup of and click <code>Make Backup</code>. A copy of the selected config files will be stored in your user's home directory in a folder called RES-Backups.</p></li>
+</ul><h5>
+<a name="where" class="anchor" href="#where"><span class="octicon octicon-link"></span></a>Where:</h5>
+
+<ul>
+<li>  Check the releases for the latest working version, or download the latest commit (but don't expect it to be bug-less if you do).</li>
+</ul>
       </section>
-
+      <footer>
+        <p>This project is maintained by <a href="https://github.com/walshie4">walshie4</a></p>
+        <p><small>Hosted on GitHub Pages &mdash; Theme by <a href="https://github.com/orderedlist">orderedlist</a></small></p>
+      </footer>
     </div>
-    <!--[if !IE]><script>fixScale(document);</script><![endif]-->
+    <script src="javascripts/scale.fix.js"></script>
     
   </body>
 </html>
