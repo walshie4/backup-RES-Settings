@@ -21,8 +21,8 @@ browsers listed [here](http://www.reddit.com/r/Enhancement/wiki/backing_up_res_s
 or OS that has not been covered. This readme will be updated more as the project develops.
 
 #####What: 
-*   The backupRESSettings.sh script will search for RES (Reddit Ehancement Suite) installs on your computer
-    and make a copy of them in an archive at a location you choose.
+*   The application searches for RES (Reddit Ehancement Suite) installs on your computer
+    and make a copy of them in a folder in your user's home directory.
 
 #####Why: 
 *   Backups are good, and especially right now for firefox users because firefox has been deleting res settings on reset.
@@ -32,8 +32,11 @@ or OS that has not been covered. This readme will be updated more as the project
 version.
 
 #####How:
-*   The script works by checking the location of many different locations different browsers use to store your RES settings.  Then if
+*   The application works by checking the location of many different locations different browsers use to store your RES settings.  Then if
 the file is found it is added to a backup file which is stored at the location you specify.
+
+* To run it simply download the latest release and double click it. Then click `Detect RES Installs`. Then check the installs you want to make
+a backup of and click `Make Backup`. A copy of the selected config files will be stored in your user's home directory in a folder called RES-Backups.
 
 #####Where:
 *   Check the releases for the latest working version, or download the latest commit (but don't expect it to be bug-less if you do).
