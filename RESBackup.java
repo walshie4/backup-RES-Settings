@@ -331,8 +331,8 @@ public class RESBackup extends Observable {
                     + "along with an issue report to have this fixed. Thanks!");
         case "Mac OS X":
         case "mac os x":
-            findRESFile(this.FF_PROFILE_MAC.replace("~", this.HOME) + "profiles.ini");
-            findRESFile(this.FF_PROFILE_MAC_ALT.replace("~", this.HOME) + "profiles.ini");
+            findRESFile(this.FF_PROFILE_MAC);
+            findRESFile(this.FF_PROFILE_MAC_ALT);
             break;
         case "Linux":
         case "linux":
@@ -351,11 +351,14 @@ public class RESBackup extends Observable {
      * @param profileDir - Sting which is the path to the directory which
      *                     houses the Firefox Profile Folder on the local
      *                     machine.
+     *
+     * @return true if added, else false
      */
-    private void findRESFile(String path) {
+    private boolean findRESFile(String path) {
+        boolean added = false;
         File profileDir = new File(path.replace("~", this.HOME));
         if(!profileDir.exists())//if it doesnt exist
-            return;//get out of here nothing else to do
+            return false;//get out of here nothing else to do
         //build a hashtable of <String names, File profile> from the profiles.ini file
         Hashtable<String, File> profiles = getProfiles(new File(profileDir, "profiles.ini"));
         Set<String> keys = profiles.keySet();
@@ -364,9 +367,14 @@ public class RESBackup extends Observable {
             //Create a file object based off the object corresponding to the current key
             //as well as the common file path suffix for Firefox settings files
             File settings = new File(profiles.get(it.next()), FF_PROFILE_SUFFIX); 
-            if (settings.exists())
+            if (settings.exists()) {
                 this.RES.add(settings);
+                added = true;//this might be able to just be a return TODO
+            }
         }
+        if (added)
+            return true;
+        return false;
     }
     /**
      * getProfiles -
