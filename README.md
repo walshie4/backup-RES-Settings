@@ -16,7 +16,7 @@ will lay them out as well as allow me a list of high priority items that shouldn
 ####Linux (Tested on Ubuntu)
 * Firefox - Working
 * Chromium - Working
-* Chrome - Not yet tested
+* Chrome - Working
 * Opera - Not yet supported
 
 ####Windows
