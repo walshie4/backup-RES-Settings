@@ -14,10 +14,10 @@ will lay them out as well as allow me a list of high priority items that shouldn
 * Safari - Working
 
 ####Linux (Tested on Ubuntu)
-Firefox - Working
-Chromium - Working
-Chrome - Not yet tested
-Opera - Not yet supported
+* Firefox - Working
+* Chromium - Working
+* Chrome - Not yet tested
+* Opera - Not yet supported
 
 ####Windows
 None tested, will test once I have access to a Win. machine or a tester volunteers.
