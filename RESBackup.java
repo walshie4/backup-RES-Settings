@@ -28,13 +28,13 @@ public class RESBackup extends Observable {
     private String APPDATA; /*Holds path to users %APPDATA% dir*/
     private String LOCALAPPDATA; /*Holds path to users %LOCALAPPDATA% dir*/
     private String HOME; /*Holds path to users home dir*/
-    private final String CHROME_PATH_WIN78 = "/Google/Chrome/"
+    private final String CHROME_PATH_WIN78 = "/Google/Chrome/" //For all paths a ~ represents the user home dir
             + "User Data/Default/Local Storage/chrome-extension_"
             + "kbmfpngjjgdllneeigpgjifpgocmfgmb_0.localstorage";
     private final String CHROMIUM_PATH_WIN78 = "/Chromium/"
             + "User Data/Default/Local Storage/chrome-extension_"
             + "kbmfpngjjgdllneeigpgjifpgocmfgmb_0.localstorage";
-    private final String CHROME_PATH_WINXP = "Local Settings/Application Data/Google"
+    private final String CHROME_PATH_WINXP = "~/Local Settings/Application Data/Google"
             + "/Chrome/User Data/Default/Local Storage/chrome-extension_"
             + "kbmfpngjjgdllneeigpgjifpgocmfgmb_0.localstorage";
     private final String CHROME_PATH_OSX = "~/Library/Application Support/Google/"
@@ -160,6 +160,22 @@ public class RESBackup extends Observable {
         notifyObservers();
     }
     /**
+     * lookFor - Looks for the file at the given path and adds it to RES if it exists
+     *
+     * @param path - String representation of the path to the file to check for
+     *
+     * @return True if found, else false
+     */
+    private boolean lookFor(String path) {
+        String actualPath = path.replace("~", this.HOME);
+        File file = new File(actualPath);
+        if(file.exists()) {
+            this.RES.add(file);
+            return true;
+        }
+        return false;
+    }
+    /**
      * detectRES - 
      *     Looks for installed versions of RES on the
      *     local machine.
@@ -195,9 +211,7 @@ public class RESBackup extends Observable {
                 throw new UnsupportedOperationException("The HOME variable is null, "
                         + "because of this finding installs on WIN XP is "
                         + "impossible.");
-            File chromeXP = new File(this.HOME + this.CHROME_PATH_WINXP);
-            if (chromeXP.exists())
-                this.RES.add(chromeXP);
+            lookFor(this.CHROME_PATH_WINXP);
             findOperaWindows();
             break;
         case "mac os x":
@@ -205,18 +219,9 @@ public class RESBackup extends Observable {
                 throw new UnsupportedOperationException("The HOME variable is null, "
                         + "because of this finding installs on MAC OS X is "
                         + "impossible.");
-            String chromePathOSX = this.CHROME_PATH_OSX.replace("~", this.HOME);
-            File chromeOSX = new File(chromePathOSX);
-            if (chromeOSX.exists())
-                this.RES.add(chromeOSX);
-            String chromium = this.CHROMIUM_PATH_OSX.replace("~", this.HOME);
-            File chromiumOSX = new File(chromium);
-            if (chromiumOSX.exists()) 
-                this.RES.add(chromiumOSX);
-            String opera = this.OPERA_MAC.replace("~", this.HOME);
-            File operaOSX = new File(opera);
-            if (operaOSX.exists())
-                this.RES.add(operaOSX);
+            lookFor(this.CHROME_PATH_OSX);
+            lookFor(this.CHROMIUM_PATH_OSX);
+            lookFor(this.OPERA_MAC);
             findFirefoxProfile();
             findSafariOSX();
             break;
@@ -225,14 +230,8 @@ public class RESBackup extends Observable {
                 throw new UnsupportedOperationException("User's home directory "
                         + "cannot be found, because of this it is impossible to "
                         + "find chrome's RES file");
-            String chromePathLinux = this.CHROME_PATH_LINUX.replace("~", this.HOME);
-            File chromeLinux = new File(chromePathLinux);
-            if (chromeLinux.exists())
-                this.RES.add(chromeLinux);
-            String chromiumPathLinux = this.CHROMIUM_PATH_LINUX.replace("~", this.HOME);
-            File chromiumLinux = new File(chromiumPathLinux);
-            if (chromiumLinux.exists())
-                this.RES.add(chromiumLinux);
+            lookFor(this.CHROME_PATH_LINUX);
+            lookFor(this.CHROMIUM_PATH_LINUX);
             findFirefoxProfile();
             break;
         default:
@@ -251,23 +250,15 @@ public class RESBackup extends Observable {
      * @exception UnsupportedOperationException - thrown if user home property is null
      */
     private void detectOnWindows(String appDataPath) {
-        File chrome78 = new File(appDataPath + this.CHROME_PATH_WIN78);
-        if (chrome78.exists())
-            this.RES.add(chrome78);
+        if (lookFor(appDataPath + this.CHROME_PATH_WIN78)) {}//file found
         else {//try looking in AppData\Local\Google\Chrome
             String parent = appDataPath.replace("Roaming", "Local");
-            File altChrome78 = new File(parent + this.CHROME_PATH_WIN78);
-            if (altChrome78.exists())
-                this.RES.add(altChrome78);
+            lookFor(parent + this.CHROME_PATH_WIN78);
         }
-        File chromium78 = new File(appDataPath + this.CHROMIUM_PATH_WIN78);
-        if (chromium78.exists())
-            this.RES.add(chromium78);
+        if (lookFor(appDataPath + this.CHROMIUM_PATH_WIN78)) {} //file found
         else {
             String parent = appDataPath.replace("Roaming", "Local");
-            File altChromium78 = new File(parent + this.CHROMIUM_PATH_WIN78);
-            if (altChromium78.exists())
-                this.RES.add(altChromium78);
+            lookFor(parent + this.CHROMIUM_PATH_WIN78);
         }
         findFirefoxProfile();
         if (this.HOME == null)
@@ -330,9 +321,7 @@ public class RESBackup extends Observable {
         switch(this.os) {
         case "Windows 7":
         case "Windows 8":
-            File profileWin78 = new File(this.APPDATA + this.FF_PROFILE_WIN78);
-            if (profileWin78.exists()) 
-                findRESFile(profileWin78);
+            findRESFile(this.APPDATA + this.FF_PROFILE_WIN78);
             break;
         case "Windows XP":
             throw new UnsupportedOperationException("The Firefox profile folder"
@@ -342,21 +331,12 @@ public class RESBackup extends Observable {
                     + "along with an issue report to have this fixed. Thanks!");
         case "Mac OS X":
         case "mac os x":
-            String path = this.FF_PROFILE_MAC.replace("~", this.HOME);
-            File profileMac = new File(path + "profiles.ini");
-            if (profileMac.exists())
-                findRESFile(new File(path));
-            String altPath = this.FF_PROFILE_MAC_ALT.replace("~", this.HOME);
-            File profileMacAlt = new File(altPath + "profiles.ini");
-            if (profileMacAlt.exists())
-                findRESFile(new File(altPath));
+            findRESFile(this.FF_PROFILE_MAC.replace("~", this.HOME) + "profiles.ini");
+            findRESFile(this.FF_PROFILE_MAC_ALT.replace("~", this.HOME) + "profiles.ini");
             break;
         case "Linux":
         case "linux":
-            String firefox = FF_PROFILE_LINUX.replace("~", this.HOME);
-            File profileLinux = new File(firefox);
-            if (profileLinux.exists())
-                findRESFile(profileLinux);
+            findRESFile(this.FF_PROFILE_LINUX);
             break;
         default:
             //this should never run, unless called out of order or switch does not
@@ -368,11 +348,14 @@ public class RESBackup extends Observable {
      *      looks through the passed directory for the RES settings file
      *      and adds it to the RES arraylist if the settings file found exists
      *
-     * @param profileDir - File object which points to the directory which
+     * @param profileDir - Sting which is the path to the directory which
      *                     houses the Firefox Profile Folder on the local
      *                     machine.
      */
-    private void findRESFile(File profileDir) {
+    private void findRESFile(String path) {
+        File profileDir = new File(path.replace("~", this.HOME));
+        if(!profileDir.exists())//if it doesnt exist
+            return;//get out of here nothing else to do
         //build a hashtable of <String names, File profile> from the profiles.ini file
         Hashtable<String, File> profiles = getProfiles(new File(profileDir, "profiles.ini"));
         Set<String> keys = profiles.keySet();
