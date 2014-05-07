@@ -3,7 +3,28 @@
 Backup functionality is available and tested on OS X and Linux (with Oracle Java 7), however some features are a bit iffy. Here is a little TODO list that
 will lay them out as well as allow me a list of high priority items that shouldn't be too difficult to fix.
 
-###TODO (as of V0.2.0)
+-------------------
+
+##Browser/OS Status (as of V0.2.2)
+####Mac (Tested on 10.9)
+* Firefox - Working
+* Chrome - Working
+* Chromium - Working
+* Opera - Working
+* Safari - Working
+
+####Linux (Tested on Ubuntu)
+Firefox - Working
+Chromium - Working
+Chrome - Not yet tested
+Opera - Not yet supported
+
+####Windows
+None tested, will test once I have access to a Win. machine or a tester volunteers.
+
+-------------------------
+
+###TODO (as of V0.2.2)
 * Fix behavior when the RES-Backups folder already exists in the users home dir. As of right now you will be prompted to rename it to RES-Backups-OLD.
 
 * Fix duplicate issue for cases when a user has both Chrome and Chromium for example. Both files are named the same, so their index in the list will be added
@@ -11,14 +32,7 @@ to the end of their file name to avoid issues.
 
 * Find out more about the .localstorage-journal file and its purpose (and then if it should be backed-up as well).
 
-###Note
-I cannot test most of the common issues, as I do not have access to a Windows machine. If you have a Windows machine and would like to assist in testing
-please contact me. Otherwise most development will have to wait until June.
-
-####IMPORTANT!
-I have started working on re-writing the idea behind the backupRESSetting script into a cross-platform Java application. At first I will be implementing the 
-browsers listed [here](http://www.reddit.com/r/Enhancement/wiki/backing_up_res_settings). However, eventually I will be willing to add support for any browser 
-or OS that has not been covered. This readme will be updated more as the project develops.
+----------------------
 
 #####What: 
 *   The application searches for RES (Reddit Ehancement Suite) installs on your computer
