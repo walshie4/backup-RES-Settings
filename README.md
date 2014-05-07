@@ -17,7 +17,7 @@ will lay them out as well as allow me a list of high priority items that shouldn
 * Firefox - Working
 * Chromium - Working
 * Chrome - Working
-* Opera - Not yet supported
+* Opera - Working
 
 ####Windows
 * Chrome - Working (Big thanks to [/u/Trapt45](http://www.reddit.com/user/Trapt45) for testing)

@@ -45,6 +45,8 @@ public class RESBackup extends Observable {
             + "Storage/chrome-extension_kbmfpngjjgdllneeigpgjifpgocmfgmb_0.localstorage";
     private final String CHROMIUM_PATH_LINUX = "~/.config/chromium/Default/Local "
             + "Storage/chrome-extension_kbmfpngjjgdllneeigpgjifpgocmfgmb_0.localstorage";
+    private final String OPERA_LINUX = "~/.opera/widgets/wuid-b0c538a0-d636-11e3-875a-b7baa53c42ed/"
+            + "/pstorage/00/06/00000000";//this may be incorrect. Is marked as the 'DataFile' in the psindex.dat
     private final String FF_PROFILE_MAC = "~/Library/Mozilla/Firefox/Profiles/";
     private final String FF_PROFILE_MAC_ALT = "~/Library/Application Support/"
             + "Firefox/";
@@ -232,6 +234,7 @@ public class RESBackup extends Observable {
                         + "find chrome's RES file");
             lookFor(this.CHROME_PATH_LINUX);
             lookFor(this.CHROMIUM_PATH_LINUX);
+            lookFor(this.OPERA_LINUX);
             findFirefoxProfile();
             break;
         default:
