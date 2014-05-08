@@ -5,7 +5,7 @@ will lay them out as well as allow me a list of high priority items that shouldn
 
 -------------------
 
-##Browser/OS Status (as of V0.2.2)
+##Browser/OS Status (as of V0.2.3)
 ####Mac (Tested on 10.9)
 * Firefox - Working
 * Chrome - Working
