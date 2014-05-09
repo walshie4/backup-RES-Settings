@@ -26,7 +26,7 @@ Many untested, will test once I have access to a Win. machine or a tester volunt
 
 -------------------------
 
-###TODO (as of V0.2.3)
+###TODO (as of V0.2.4)
 * Fix behavior when the RES-Backups folder already exists in the users home dir. As of right now you will be prompted to rename it to RES-Backups-OLD.
 
 * Find out more about the .localstorage-journal file and its purpose (and then if it should be backed-up as well).
