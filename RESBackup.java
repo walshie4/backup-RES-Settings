@@ -169,6 +169,7 @@ public class RESBackup extends Observable {
     public void reset() {
         this.os = null;
         this.RES = new ArrayList<File>();
+        this.BROWSER = new ArrayList<String>();
         setChanged();
         notifyObservers();
     }
@@ -204,6 +205,7 @@ public class RESBackup extends Observable {
      */
     public void detectRES() throws UnsupportedOperationException{
         this.RES = new ArrayList<File>(); //reset the list contents
+        this.BROWSER = new ArrayList<String>();
         detectOperatingSystem();
         switch(this.os) {
         case "windows 7":
