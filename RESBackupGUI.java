@@ -112,7 +112,7 @@ public class RESBackupGUI implements Observer {
         buttons.add(detectRES);
         buttons.add(detectOS);
         buttons.add(backup);
-        win.setPreferredSize(new Dimension(600,500));
+        win.setPreferredSize(new Dimension(1200,500));
         pane.add(os, BorderLayout.NORTH);
         pane.add(buttons, BorderLayout.SOUTH);
         pane.add(this.scrollPane, BorderLayout.CENTER);
