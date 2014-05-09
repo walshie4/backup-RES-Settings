@@ -45,18 +45,19 @@ public class RESBackupGUI implements Observer {
             public boolean isCellEditable(int row, int col) {
                 return col == 0; //editable if checkbox
             }
-            public int getColumnCount() { return 2; }
+            public int getColumnCount() { return 3; }
             public Class<?> getColumnClass(int col) {
                 if (col == 0)
                     return Boolean.class; //checkbox
                 return super.getColumnClass(col); }
         };
-        this.tableModel.setColumnIdentifiers(new String[] {"Backup?", "File Path"});
+        this.tableModel.setColumnIdentifiers(new String[] {"Backup?", "Browser", "File Path"});
         this.table = new JTable();
         this.table.setModel(this.tableModel);
         this.table.setShowGrid(true);
         this.table.setGridColor(Color.BLACK);
-        this.table.getColumnModel().getColumn(0).setMaxWidth(80);
+        this.table.getColumnModel().getColumn(0).setMaxWidth(50);
+        this.table.getColumnModel().getColumn(1).setMaxWidth(80);
         this.os = new JLabel("Detected OS: " + model.getOS());
         this.scrollPane = new JScrollPane(this.table);
         win = new JFrame("RES Backup / Restore Client");
@@ -123,13 +124,17 @@ public class RESBackupGUI implements Observer {
      * updateTable - updates the table with the data passed
      *
      * @param files - ArrayList<File> of files to display
+     *
+     * @param browsers - Arraylist<String> of browser names
      */
-    private void updateTable(ArrayList<File> files) {
-        this.tableModel.setRowCount(files.size());
+    private void updateTable(ArrayList<File> files, ArrayList<String> browsers) {
+        int size = files.size();
+        this.tableModel.setRowCount(size);
         int row = 0;
-        for (File file : files) {
+        for (int i = 0; i < size; i++) {
             tableModel.setValueAt(false, row, 0);
-            tableModel.setValueAt(file, row, 1);
+            tableModel.setValueAt(browsers.get(i), row, 1);
+            tableModel.setValueAt(files.get(i), row, 2);
             row += 1;
         }
         this.table.setModel(this.tableModel);
@@ -157,7 +162,7 @@ public class RESBackupGUI implements Observer {
      */
     public void update(Observable t, Object o) {
         this.os.setText("Detected OS: " + this.model.getOS());
-        updateTable(this.model.getFoundFiles());
+        updateTable(this.model.getFoundFiles(), this.model.getFoundBrowsers());
     }
     /**
      * aboutWindow - returns a JFrame with information about the project
