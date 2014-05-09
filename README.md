@@ -5,7 +5,7 @@ will lay them out as well as allow me a list of high priority items that shouldn
 
 -------------------
 
-##Browser/OS Status (as of V0.2.2)
+##Browser/OS Status (as of V0.2.3)
 ####Mac (Tested on 10.9)
 * Firefox - Working
 * Chrome - Working
@@ -16,8 +16,8 @@ will lay them out as well as allow me a list of high priority items that shouldn
 ####Linux (Tested on Ubuntu)
 * Firefox - Working
 * Chromium - Working
-* Chrome - Not yet tested
-* Opera - Not yet supported
+* Chrome - Working
+* Opera - Working
 
 ####Windows
 * Chrome - Working (Big thanks to [/u/Trapt45](http://www.reddit.com/user/Trapt45) for testing)
