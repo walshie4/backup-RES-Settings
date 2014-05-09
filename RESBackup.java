@@ -116,7 +116,8 @@ public class RESBackup extends Observable {
             File current = filesToBackup.get(i);
             if(indices.contains(new Integer(i))) {//checkbox checked
                 System.out.println("Backing up " + current.getAbsolutePath());
-                File output = new File(backupDir.getAbsolutePath() + '/' + this.BROWSER[i] + "-backup-" current.getName());
+                File output = new File(backupDir.getAbsolutePath() + '/' + this.BROWSER.get(i)
+                        + "-backup-" + current.getName());
                 Files.copy(current.toPath(), output.toPath(), StandardCopyOption.COPY_ATTRIBUTES);
             }
         }
