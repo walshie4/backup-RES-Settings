@@ -26,13 +26,15 @@ Many untested, will test once I have access to a Win. machine or a tester volunt
 
 -------------------------
 
-###TODO (as of V0.2.2)
+###TODO (as of V0.2.3)
 * Fix behavior when the RES-Backups folder already exists in the users home dir. As of right now you will be prompted to rename it to RES-Backups-OLD.
 
 * Fix duplicate issue for cases when a user has both Chrome and Chromium for example. Both files are named the same, so their index in the list will be added
 to the end of their file name to avoid issues.
 
 * Find out more about the .localstorage-journal file and its purpose (and then if it should be backed-up as well).
+
+* Convert alerts on stdout to alert window pop-ups or something similar
 
 ----------------------
 
