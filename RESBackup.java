@@ -400,7 +400,7 @@ public class RESBackup extends Observable {
             if (settings.exists()) {
                 this.RES.add(settings);
                 this.browsers.add(browser);
-                added = true;//this might be able to just be a return TODO
+                added = true;
             }
         }
         if (added)
