@@ -1,10 +1,5 @@
 #[RES](http://redditenhancementsuite.com/) Backup Assistant
 
-Backup functionality is available and tested on OS X and Linux (with Oracle Java 7), however some features are a bit iffy. Here is a little TODO list that
-will lay them out as well as allow me a list of high priority items that shouldn't be too difficult to fix.
-
--------------------
-
 ##Browser/OS Status (as of V0.3.0)
 ####Mac (Tested on 10.9.3)
 * Firefox - Working
