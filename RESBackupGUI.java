@@ -7,8 +7,6 @@
  */
 
 import javax.swing.*;
-import java.awt.event.*;
-import java.util.Observer;
 import java.util.ArrayList;
 import java.io.File;
 import javax.swing.table.*;
@@ -23,23 +21,28 @@ import java.net.URI;
 import java.io.IOException;
 import java.net.URISyntaxException;
 
-public class RESBackupGUI implements Observer {
+public class RESBackupGUI {
     private JFrame win; /**Main window*/
-    private RESBackup model; /**Model used with this view/control*/
+    private RESBackupController control; /**Control to be used with this view*/
     private JLabel os; /**Label to hold the found OS*/
     private DefaultTableModel tableModel; /**Model for the table*/
     private JTable table; /**Table to hold data*/
     private JScrollPane scrollPane; /**Scroll pane which will hold the table*/
+    /** Buttons */
+    private JButton detectOS;
+    private JButton about;
+    private JButton detectRES;
+    private JButton reset;
+    private JButton backup;
     /**
      * Constructor - Creates new RESBackupGUI object
      *
-     * @param model Model to be used with this view/control
+     * @param control Controller to be used with this view 
      *
      * @return new RESBackupGUI object
      */
-    public RESBackupGUI(RESBackup model) {
-        this.model = model;
-        this.model.addObserver(this);
+    public RESBackupGUI(RESBackupController control) {
+        this.control = control;
         this.tableModel = new DefaultTableModel() {
             private static final long serialVersionUID=42L;
             public boolean isCellEditable(int row, int col) {
@@ -58,55 +61,18 @@ public class RESBackupGUI implements Observer {
         this.table.setGridColor(Color.BLACK);
         this.table.getColumnModel().getColumn(0).setMaxWidth(50);
         this.table.getColumnModel().getColumn(1).setMaxWidth(80);
-        this.os = new JLabel("Detected OS: " + model.getOS());
+        this.os = new JLabel("Detected OS: ");
         this.scrollPane = new JScrollPane(this.table);
         win = new JFrame("RES Backup / Restore Client");
         win.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         Container pane = win.getContentPane();
-        final RESBackup finalModel = this.model;
-        JButton detectOS = new JButton("Detect OS");
-        JButton detectRES = new JButton("Detect RES installs");
-        JButton reset = new JButton("Reset");
-        JButton about = new JButton("About");
-        JButton backup = new JButton("Make Backup");
+        this.detectOS = new JButton("Detect OS");
+        this.detectRES = new JButton("Detect RES installs");
+        this.reset = new JButton("Reset");
+        this.about = new JButton("About");
+        this.backup = new JButton("Make Backup");
         JPanel buttons = new JPanel(); //JPanel to hold buttons (at the bottom)
         buttons.setLayout(new FlowLayout(FlowLayout.RIGHT, 4, 4));
-        final RESBackup mod = this.model; /**Final model to be used in listeners*/
-        about.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                aboutWindow();
-            }
-        });
-        reset.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                mod.reset();
-            }
-        });
-        detectRES.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                try {
-                    mod.detectRES();
-                }
-                catch (UnsupportedOperationException exception) {
-                    System.err.println(exception.getMessage());
-                }
-            }
-        });
-        detectOS.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                mod.detectOperatingSystem();
-            }
-        });
-        backup.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                try{
-                    mod.makeBackup(getSelected());
-                }
-                catch (Exception exception) {
-                    System.err.println(exception.getMessage());
-                }
-            }
-        });
         buttons.add(about);//add in order from right to left
         buttons.add(reset);
         buttons.add(detectRES);
@@ -121,13 +87,23 @@ public class RESBackupGUI implements Observer {
         win.validate();
     }
     /**
+     * addActionListeners - add actionlisteners to the buttons
+     */
+    public void addActionListeners() {
+        this.about.addActionListener(this.control.aboutBtn());
+        this.reset.addActionListener(this.control.resetBtn());
+        this.detectRES.addActionListener(this.control.detectRESBtn());
+        this.detectOS.addActionListener(this.control.detectOSBtn());
+        this.backup.addActionListener(this.control.backupBtn());
+    }
+    /**
      * updateTable - updates the table with the data passed
      *
      * @param files - ArrayList<File> of files to display
      *
      * @param browsers - Arraylist<String> of browser names
      */
-    private void updateTable(ArrayList<File> files, ArrayList<String> browsers) {
+    public void updateTable(ArrayList<File> files, ArrayList<String> browsers) {
         int size = files.size();
         this.tableModel.setRowCount(size);
         int row = 0;
@@ -144,7 +120,7 @@ public class RESBackupGUI implements Observer {
      *
      * @return ArrayList of ints representing indexes of selected files
      */
-    private ArrayList<Integer> getSelected() {
+    public ArrayList<Integer> getSelected() {
         ArrayList<Integer> result = new ArrayList<Integer>();
         for(int i = 0; i < tableModel.getRowCount(); i++) {
             if(this.tableModel.getValueAt(i, 0) == true)//if selected
@@ -153,23 +129,19 @@ public class RESBackupGUI implements Observer {
         return result;
     }
     /**
-     * update - Updates UI components which have had their data
-     *          changed in the model
-     *
-     * @param t - unused
-     * @param o - unused
-     *
+     * setOS - set the OS output to be what it should
+     * 
+     * @param os - String representation of the detected OS
      */
-    public void update(Observable t, Object o) {
-        this.os.setText("Detected OS: " + this.model.getOS());
-        updateTable(this.model.getFoundFiles(), this.model.getFoundBrowsers());
+    public void setOS(String os) {
+    	this.os.setText("Detected OS: " + os);
     }
     /**
      * aboutWindow - returns a JFrame with information about the project
      *
      * @return JFrame instance with information about the project
      */
-    private JFrame aboutWindow() {
+    public JFrame aboutWindow() {
         JFrame about = new JFrame("About this project");
         JLabel description = new JLabel();
         JButton projectLink = new JButton();
@@ -179,22 +151,7 @@ public class RESBackupGUI implements Observer {
             projectLink.setText(projectURI.toString());
             projectLink.setBorderPainted(false);
             projectLink.setToolTipText(projectURI.toString());
-            projectLink.addActionListener(new ActionListener() {
-                public void actionPerformed(ActionEvent e) {
-                    if(Desktop.isDesktopSupported()) {
-                        try {
-                            Desktop.getDesktop().browse(projectURI);
-                        }
-                        catch(IOException error) {
-                            System.err.println(error.getMessage());
-                        }
-                    }
-                    else {
-                        System.err.println("Desktop is not supported! Link cannot be"
-                            + "opened.");
-                    }
-                }
-            });
+            projectLink.addActionListener(this.control.projectLink(projectURI));
             Container pane = about.getContentPane();
             pane.add(projectLink);
         }
@@ -204,13 +161,5 @@ public class RESBackupGUI implements Observer {
         about.setVisible(true);
         about.setSize(400,400);
         return about;
-    }
-    /**
-     * Main - Runs the program
-     *
-     * @param args - Command-line arguments
-     */
-    public static void main(String[] args) {
-        RESBackupGUI gui = new RESBackupGUI(new RESBackup());
     }
 }

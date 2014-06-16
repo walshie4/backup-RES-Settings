@@ -20,10 +20,11 @@ import java.util.Hashtable;
 import java.util.Iterator;
 import java.util.Set;
 import java.util.Observable;
-import javax.swing.JOptionPane;
 import java.nio.file.Files;
 import java.nio.file.StandardCopyOption;
-
+/**
+ * The model in this MVC implementation
+ */
 public class RESBackup extends Observable {
     private String APPDATA; /*Holds path to users %APPDATA% dir*/
     private String LOCALAPPDATA; /*Holds path to users %LOCALAPPDATA% dir*/
@@ -62,17 +63,21 @@ public class RESBackup extends Observable {
     private String os; /*String representation of the OS*/
     private ArrayList<File> RES; /*Contains File object representations of
                             found RES settings files*/
-    private ArrayList<String> BROWSER; /*Contains string representations of the name of
+    private ArrayList<String> browsers; /*Contains string representations of the name of
                                          browser for corresponding (by index) backup in RES*/
+    private RESBackupController controller;/*Controller being used with this model*/
     /**
      * RESBackup -
      *     Constructor for RESBackup object
      *
+     * @param controller controller object being used with this model
+     *
      * @return A new RESBackup object
      */
-    public RESBackup() {
+    public RESBackup(RESBackupController controller) {
+        this.controller = controller;
         this.RES = new ArrayList<File>();
-        this.BROWSER = new ArrayList<String>();
+        this.browsers = new ArrayList<String>();
         this.APPDATA = System.getenv("APPDATA");
         this.LOCALAPPDATA = System.getenv("LOCALAPPDATA");
         this.HOME = System.getenv("user.home");
@@ -97,12 +102,11 @@ public class RESBackup extends Observable {
         if(backupDir.exists() && backupDir.isDirectory()) {//dir exists
             exists = true;
             if(backupDir.list().length > 0) {//not empty
-                int resp = JOptionPane.showConfirmDialog(null, "The backup directory " +
-                        "is not empty. Would you like to rename this dir? (If not " +
-                        "sure press no and look in the dir @ "
-                        + backupDir.getAbsolutePath(), "Warning",
-                        JOptionPane.YES_NO_OPTION);
-                if (resp == JOptionPane.YES_OPTION) {//user selected yes
+                boolean resp = this.controller.getResponse("The backup directory " +
+                "is not empty. Would you like to rename this dir? (If not " +
+                "sure press no and look in the dir @ "
+                + backupDir.getAbsolutePath());
+                if (resp) {//user selected yes
                     backupDir.renameTo(new File(this.HOME + "/RES-Backups-OLD"));//TODO change this behavior
                     exists = false;                         //need to add input dialog method to view and
                 }                                       //logic to have controller check if dir exists and isnt empty
@@ -118,7 +122,7 @@ public class RESBackup extends Observable {
             File current = filesToBackup.get(i);
             if(indices.contains(new Integer(i))) {//checkbox checked
                 System.out.println("Backing up " + current.getAbsolutePath());
-                File output = new File(backupDir.getAbsolutePath() + '/' + this.BROWSER.get(i)
+                File output = new File(backupDir.getAbsolutePath() + '/' + this.browsers.get(i)
                         + "-backup-" + current.getName());
                 Files.copy(current.toPath(), output.toPath(), StandardCopyOption.COPY_ATTRIBUTES);
             }
@@ -151,7 +155,7 @@ public class RESBackup extends Observable {
      *         same index in RES
      */
     public ArrayList<String> getFoundBrowsers() {
-        return this.BROWSER;
+        return this.browsers;
     }
     /**
      * detectOperatingSystem -
@@ -172,7 +176,7 @@ public class RESBackup extends Observable {
     public void reset() {
         this.os = null;
         this.RES = new ArrayList<File>();
-        this.BROWSER = new ArrayList<String>();
+        this.browsers = new ArrayList<String>();
         setChanged();
         notifyObservers();
     }
@@ -190,7 +194,7 @@ public class RESBackup extends Observable {
         File file = new File(actualPath);
         if(file.exists()) {
             this.RES.add(file);
-            this.BROWSER.add(browser);
+            this.browsers.add(browser);
             return true;
         }
         return false;
@@ -208,7 +212,7 @@ public class RESBackup extends Observable {
      */
     public void detectRES() throws UnsupportedOperationException{
         this.RES = new ArrayList<File>(); //reset the list contents
-        this.BROWSER = new ArrayList<String>();
+        this.browsers = new ArrayList<String>();//for refilling
         detectOperatingSystem();
         switch(this.os) {
         case "windows 7":
@@ -305,7 +309,7 @@ public class RESBackup extends Observable {
         File settings = findSafariFile(path.replace("~", this.HOME));
         if (settings.exists()) {
             this.RES.add(settings);
-            this.BROWSER.add("Safari");
+            this.browsers.add("Safari");
         }
     }
     /**
@@ -395,7 +399,7 @@ public class RESBackup extends Observable {
             File settings = new File(profiles.get(it.next()), FF_PROFILE_SUFFIX); 
             if (settings.exists()) {
                 this.RES.add(settings);
-                this.BROWSER.add(browser);
+                this.browsers.add(browser);
                 added = true;//this might be able to just be a return TODO
             }
         }
@@ -425,7 +429,7 @@ public class RESBackup extends Observable {
             String name = ""; //will hold name of section in 'profiles.ini' file
             boolean building = false; //true when still reading info on one section
             boolean relativePath = false; //true if path for current profile being
-                    // built is relative to dir containing the profiles.ini file
+                    //build is relative to dir containing the profiles.ini file
             File profile = null; //used to hold the profile file during building
             while ((line = reader.readLine()) != null) {
                 if (building) { //building a Hashtable entry
@@ -486,16 +490,5 @@ public class RESBackup extends Observable {
             }
         }
         return profiles;
-    }
-    /**
-     * main - Runs the program (debugging only)
-     *
-     * @param args - Command-line arguments
-     */
-    public static void main(String[] args) {
-        RESBackup backup = new RESBackup();
-        backup.detectRES();
-        for (File found : backup.getFoundFiles())
-            System.out.println(found.getAbsolutePath());
     }
 }
