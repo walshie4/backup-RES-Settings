@@ -5,7 +5,7 @@ will lay them out as well as allow me a list of high priority items that shouldn
 
 -------------------
 
-##Browser/OS Status (as of V0.2.4)
+##Browser/OS Status (as of V0.3.0)
 ####Mac (Tested on 10.9)
 * Firefox - Working
 * Chrome - Working
@@ -26,7 +26,7 @@ Many untested, will test once I have access to a Win. machine or a tester volunt
 
 -------------------------
 
-###TODO (as of V0.2.4)
+###TODO (as of V0.3.0)
 * Fix behavior when the RES-Backups folder already exists in the users home dir. As of right now you will be prompted to rename it to RES-Backups-OLD.
 
 * Find out more about the .localstorage-journal file and its purpose (and then if it should be backed-up as well).
