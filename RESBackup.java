@@ -118,15 +118,17 @@ public class RESBackup extends Observable {
         if(!backupDir.mkdir() && !exists)//backup dir could not be created and doesnt exist
             throw new Exception("Backup dir could not be created! It may already exist"
                     + "as a file. Backup FAILED! Please report this.");
+        String outputStr = "";//what is to be printed
         for(int i = 0; i < filesToBackup.size(); i++) {//for each file found
             File current = filesToBackup.get(i);
             if(indices.contains(new Integer(i))) {//checkbox checked
-                System.out.println("Backing up " + current.getAbsolutePath());
+                outputStr += ("Backing up " + current.getAbsolutePath() + "\n");
                 File output = new File(backupDir.getAbsolutePath() + '/' + this.browsers.get(i)
                         + "-backup-" + current.getName());
                 Files.copy(current.toPath(), output.toPath(), StandardCopyOption.COPY_ATTRIBUTES);
             }
         }
+        this.controller.showAlert(outputStr);
     }
     /**
      * getOS - returns the internal string holding the detected OS value
@@ -477,7 +479,7 @@ public class RESBackup extends Observable {
                 profiles.put(name, profile);
         }
         catch(IOException e) {
-            System.err.format("IOException: %s%n", e);
+            this.controller.showAlert("IOException: " + e.getMessage());
         }
         finally {
             if (reader != null) {
@@ -485,7 +487,7 @@ public class RESBackup extends Observable {
                     reader.close();
                 }
                 catch (IOException e) {
-                    System.err.println(e.getMessage());
+                    this.controller.showAlert(e.getMessage());
                 }
             }
         }

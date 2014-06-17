@@ -126,11 +126,11 @@ public class RESBackupController implements Observer {
                         Desktop.getDesktop().browse(projectURI);
                     }
                     catch(IOException error) {
-                        System.err.println(error.getMessage());
+                        showAlert(error.getMessage());
                     }
                 }
                 else {
-                    System.err.println("Desktop is not supported! Link cannot be"
+                    showAlert("Desktop is not supported! Link cannot be"
                         + "opened.");
                 }
             }
@@ -152,7 +152,7 @@ public class RESBackupController implements Observer {
      * @param message - message to be shown
      */
     public void showAlert(String message) {
-        //tell view to show alert
+       this.view.showAlert(message);
     }
     /**
      * getResponse - asks question to user and returns result

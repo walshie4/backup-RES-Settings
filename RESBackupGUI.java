@@ -23,7 +23,7 @@ import java.net.URISyntaxException;
 
 public class RESBackupGUI {
     private JFrame win; /**Main window*/
-    private RESBackupController control; /**Control to be used with this view*/
+    private RESBackupController controller; /**Control to be used with this view*/
     private JLabel os; /**Label to hold the found OS*/
     private DefaultTableModel tableModel; /**Model for the table*/
     private JTable table; /**Table to hold data*/
@@ -42,7 +42,7 @@ public class RESBackupGUI {
      * @return new RESBackupGUI object
      */
     public RESBackupGUI(RESBackupController control) {
-        this.control = control;
+        this.controller = control;
         this.tableModel = new DefaultTableModel() {
             private static final long serialVersionUID=42L;
             public boolean isCellEditable(int row, int col) {
@@ -90,11 +90,11 @@ public class RESBackupGUI {
      * addActionListeners - add actionlisteners to the buttons
      */
     public void addActionListeners() {
-        this.about.addActionListener(this.control.aboutBtn());
-        this.reset.addActionListener(this.control.resetBtn());
-        this.detectRES.addActionListener(this.control.detectRESBtn());
-        this.detectOS.addActionListener(this.control.detectOSBtn());
-        this.backup.addActionListener(this.control.backupBtn());
+        this.about.addActionListener(this.controller.aboutBtn());
+        this.reset.addActionListener(this.controller.resetBtn());
+        this.detectRES.addActionListener(this.controller.detectRESBtn());
+        this.detectOS.addActionListener(this.controller.detectOSBtn());
+        this.backup.addActionListener(this.controller.backupBtn());
     }
     /**
      * updateTable - updates the table with the data passed
@@ -151,15 +151,23 @@ public class RESBackupGUI {
             projectLink.setText(projectURI.toString());
             projectLink.setBorderPainted(false);
             projectLink.setToolTipText(projectURI.toString());
-            projectLink.addActionListener(this.control.projectLink(projectURI));
+            projectLink.addActionListener(this.controller.projectLink(projectURI));
             Container pane = about.getContentPane();
             pane.add(projectLink);
         }
         catch (URISyntaxException syntax) {
-            System.err.println(syntax.getMessage());
+            this.controller.showAlert(syntax.getMessage());
         }
         about.setVisible(true);
         about.setSize(400,400);
         return about;
+    }
+    /**
+     * showAlert - show an alert window with specified message
+     *
+     * @param message - string to be shown in alert window
+     */
+    public void showAlert(String message) {
+        JOptionPane.showMessageDialog(null, message);
     }
 }
