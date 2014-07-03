@@ -24,8 +24,6 @@
 
 * Find out more about the .localstorage-journal file and its purpose (and then if it should be backed-up as well).
 
-* Convert alerts on stdout to alert window pop-ups or something similar
-
 ----------------------
 
 #####What: 
