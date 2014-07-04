@@ -24,6 +24,10 @@
 
 * Find out more about the .localstorage-journal file and its purpose (and then if it should be backed-up as well).
 
+* Add settings section to application
+
+* Add check for update feature
+
 ----------------------
 
 #####What: 
@@ -34,8 +38,7 @@
 *   Backups are good, and especially right now for firefox users because firefox has been deleting res settings on reset.
 
 #####Who:
-*   This script currently only works for users running Mac OS X. I am currently working on re-writing into a cross-platform
-version.
+* Anyone who uses RES, and has a Java Runtime on their machine can use this application.
 
 #####How:
 *   The application works by checking the location of many different locations different browsers use to store your RES settings.  Then if
@@ -46,5 +49,5 @@ Then click `Detect RES Installs`. Then check the installs you want to make a bac
 A copy of the selected config files will be stored in your user's home directory in a folder called RES-Backups.
 
 #####Where:
-*   Check the releases for the latest working version, or download the latest commit (but don't expect it to be bug-less if you do).
+*   Check the releases for the latest working version, or download the latest commit and build from source (but don't expect it to be bug-less if you do).
 
