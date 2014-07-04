@@ -1,7 +1,7 @@
 #[RES](http://redditenhancementsuite.com/) Backup Assistant
 
-##Browser/OS Status (as of V0.3.0)
-####Mac (Tested on 10.9.3)
+##Browser/OS Status (as of V0.3.1)
+####Mac (Tested on 10.9.4)
 * Firefox - Working
 * Chrome - Working
 * Chromium - Working
@@ -19,7 +19,7 @@
 
 -------------------------
 
-###TODO (as of V0.3.0)
+###TODO (as of V0.3.1)
 * Fix behavior when the RES-Backups folder already exists in the users home dir. As of right now you will be prompted to rename it to RES-Backups-OLD.
 
 * Find out more about the .localstorage-journal file and its purpose (and then if it should be backed-up as well).
