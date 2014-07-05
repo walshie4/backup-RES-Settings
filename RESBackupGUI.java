@@ -34,6 +34,7 @@ public class RESBackupGUI {
     private JButton detectRES;
     private JButton reset;
     private JButton backup;
+    private JButton settings;
     /**
      * Constructor - Creates new RESBackupGUI object
      *
@@ -71,9 +72,11 @@ public class RESBackupGUI {
         this.reset = new JButton("Reset");
         this.about = new JButton("About");
         this.backup = new JButton("Make Backup");
+        this.settings = new JButton("Settings");
         JPanel buttons = new JPanel(); //JPanel to hold buttons (at the bottom)
         buttons.setLayout(new FlowLayout(FlowLayout.RIGHT, 4, 4));
         buttons.add(about);//add in order from right to left
+        buttons.add(settings);
         buttons.add(reset);
         buttons.add(detectRES);
         buttons.add(detectOS);
@@ -95,6 +98,7 @@ public class RESBackupGUI {
         this.detectRES.addActionListener(this.controller.detectRESBtn());
         this.detectOS.addActionListener(this.controller.detectOSBtn());
         this.backup.addActionListener(this.controller.backupBtn());
+        this.settings.addActionListener(this.controller.settingsBtn());
     }
     /**
      * updateTable - updates the table with the data passed
@@ -161,6 +165,25 @@ public class RESBackupGUI {
         about.setVisible(true);
         about.setSize(400,400);
         return about;
+    }
+    /**
+     * settingsWindow - returns a JFrame with settings info
+     *
+     * @return JFrame instance with settings layout and info
+     */
+    public JFrame settingsWindow() {
+        JFrame settings = new JFrame("Settings");
+        Container pane = settings.getContentPane();
+        JLabel backupDir = new JLabel("Backup Dir: ");
+        JTextField backupDirField = new JTextField(this.controller.getBackupDir());
+        JButton checkForUpdate = new JButton("Check For Update");
+        pane.setLayout(new FlowLayout(FlowLayout.CENTER, 4, 4));
+        pane.add(backupDir);
+        pane.add(backupDirField);
+        pane.add(checkForUpdate);
+        settings.setVisible(true);
+        settings.setSize(600,100);
+        return settings;
     }
     /**
      * showAlert - show an alert window with specified message
