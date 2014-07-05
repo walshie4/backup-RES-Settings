@@ -111,6 +111,41 @@ public class RESBackupController implements Observer {
         };
     }
     /**
+     * settingsBtn - return Actionlistener for the settings button
+     *
+     * @return ActionListener object for the settings button
+     */
+    public ActionListener settingsBtn() {
+        final RESBackupGUI view = this.view;
+        return new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                view.settingsWindow();
+            }
+        };
+    }
+    /**
+     * updateBtn - return ActionListener for the check for update button
+     *
+     * @return ActionListener object for the check for update button
+     */
+    public ActionListener updateBtn() {
+        final RESBackup mod = this.model;
+        final RESBackupGUI view = this.view;
+        return new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                //check for update and report back
+            }
+        };
+    }
+    /**
+     * getBackupDir - returns a String representation of the current BackupDir path
+     *
+     * @return String representation of the current BackupDir path
+     */
+    public String getBackupDir() {
+        return this.model.getBackupDir();
+    }
+    /**
      * projectLink - returns the actionlistener for clicking the project link
      * 
      * @param URI for the project page
