@@ -26,10 +26,12 @@ import java.nio.file.StandardCopyOption;
  * The model in this MVC implementation
  */
 public class RESBackup extends Observable {
-    private String APPDATA; /*Holds path to users %APPDATA% dir*/
-    private String LOCALAPPDATA; /*Holds path to users %LOCALAPPDATA% dir*/
-    private String HOME; /*Holds path to users home dir*/
-    private final String CHROME_PATH_WIN78 = "/Google/Chrome/" //For all paths a ~ represents the user home dir
+    private final String version = "V0.3.1";/**String containing the version info*/
+    private String APPDATA; /**Holds path to users %APPDATA% dir*/
+    private String LOCALAPPDATA; /**Holds path to users %LOCALAPPDATA% dir*/
+    private String HOME; /**Holds path to users home dir*/
+    //For all paths a '~' represents the user home dir
+    private final String CHROME_PATH_WIN78 = "/Google/Chrome/" 
             + "User Data/Default/Local Storage/chrome-extension_"
             + "kbmfpngjjgdllneeigpgjifpgocmfgmb_0.localstorage";
     private final String CHROMIUM_PATH_WIN78 = "/Chromium/"
@@ -59,13 +61,13 @@ public class RESBackup extends Observable {
             + "redditenhancementsuite-";
     private final String OPERA_MAC = "~/Library/Application Support/com.operasoftware.Opera/"
             + "Local Storage/chrome-extension_gfdcmdcpehpkengmkhkbpifajmbhfgae_0.localstorage";//idk why this is diff for Opera
-    private final String BACKUP_DIR = "~/RES-Backups";
-    private String os; /*String representation of the OS*/
-    private ArrayList<File> RES; /*Contains File object representations of
+    private String backup_dir = "~/RES-Backups";
+    private String os; /**String representation of the OS*/
+    private ArrayList<File> RES; /**Contains File object representations of
                             found RES settings files*/
-    private ArrayList<String> browsers; /*Contains string representations of the name of
+    private ArrayList<String> browsers; /**Contains string representations of the name of
                                          browser for corresponding (by index) backup in RES*/
-    private RESBackupController controller;/*Controller being used with this model*/
+    private RESBackupController controller;/**Controller being used with this model*/
     /**
      * RESBackup -
      *     Constructor for RESBackup object
@@ -96,7 +98,7 @@ public class RESBackup extends Observable {
      */
     public void makeBackup(ArrayList<Integer> indices) throws Exception {
         ArrayList<File> filesToBackup = this.RES;
-        String path = BACKUP_DIR.replace("~", this.HOME);
+        String path = backup_dir.replace("~", this.HOME);
         File backupDir = new File(path);
         boolean exists = false;//true if the dir exists
         if(backupDir.exists() && backupDir.isDirectory()) {//dir exists
@@ -129,6 +131,14 @@ public class RESBackup extends Observable {
             }
         }
         this.controller.showAlert(outputStr);
+    }
+    /**
+     * getBackupDir - return contents of backup_dir variable
+     *
+     * @return String representation of backup_dir
+     */
+    public String getBackupDir() {
+        return this.backup_dir;
     }
     /**
      * getOS - returns the internal string holding the detected OS value
@@ -492,5 +502,13 @@ public class RESBackup extends Observable {
             }
         }
         return profiles;
+    }
+    /**
+     * getVersion - return the version String
+     *
+     * @return the version String in this model object
+     */
+    public String getVersion() {
+        return this.version;
     }
 }
