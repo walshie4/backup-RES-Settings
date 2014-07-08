@@ -133,7 +133,10 @@ public class RESBackupController implements Observer {
         final RESBackupGUI view = this.view;
         return new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                //check for update and report back
+                String current = //get current version from readme (use raw.) 
+                if(current == mod.getVersion()) {
+                    //
+                }
             }
         };
     }
@@ -144,6 +147,14 @@ public class RESBackupController implements Observer {
      */
     public String getBackupDir() {
         return this.model.getBackupDir();
+    }
+    /**
+     * getVersion - returns the version as a string
+     *
+     * @return String representation of the version
+     */
+    public String getVersion() {
+        return this.model.getVersion();
     }
     /**
      * projectLink - returns the actionlistener for clicking the project link
