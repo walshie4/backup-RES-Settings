@@ -176,10 +176,12 @@ public class RESBackupGUI {
         Container pane = settings.getContentPane();
         JLabel backupDir = new JLabel("Backup Dir: ");
         JTextField backupDirField = new JTextField(this.controller.getBackupDir());
+        JLabel version = new JLabel("Version: " + this.controller.getVersion());
         JButton checkForUpdate = new JButton("Check For Update");
         pane.setLayout(new FlowLayout(FlowLayout.CENTER, 4, 4));
         pane.add(backupDir);
         pane.add(backupDirField);
+        pane.add(version);
         pane.add(checkForUpdate);
         settings.setVisible(true);
         settings.setSize(600,100);
